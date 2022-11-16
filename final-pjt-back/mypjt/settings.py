@@ -32,7 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # local apps
-    'todos',
+    'community',
+    'movies',
     'accounts',
     
     # CORS policy
