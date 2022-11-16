@@ -8,47 +8,36 @@ from django.views.decorators.http import require_POST, require_http_methods
 from .forms import CustomUserCreationForm
 from django.http import JsonResponse
 
-@require_http_methods(['GET', 'POST'])
+# 이쪽이 VUE랑 연동해서 쓸 모듈들
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from .serializers import UserSerializer
+from rest_framework.permissions import (
+    IsAuthenticated,
+    AllowAny,
+)
+@api_view(['POST'])
 def signup(request):
-    if request.user.is_authenticated:
-        return redirect('community:index')
-
+    # 로그인 된 유저면 목록으로 돌아가게
+    # if request.user.is_authenticated:
+    #     todos = Todo.objects.all()
+    #     todoserializer = TodoSerializer(todos, many=True)
+    #     return Response(todoserializer.data)
+    
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            auth_login(request, user)
-            return redirect('community:index')
-    else:
-        form = CustomUserCreationForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'accounts/signup.html', context)
+        serializer = UserSerializer(data=request.data)
+        password = serializer.initial_data.get('password')
 
-
-@require_http_methods(['GET', 'POST'])
-def login(request):
-    if request.user.is_authenticated:
-        return redirect('community:index')
-
-    if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
-        if form.is_valid():
-            auth_login(request, form.get_user())
-            return redirect(request.GET.get('next') or 'community:index')
-    else:
-        form = AuthenticationForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'accounts/login.html', context)
-
-
-@require_POST
-def logout(request):
-    auth_logout(request)
-    return redirect('community:index')
+        if serializer.is_valid(raise_exception=True):
+            if serializer.validated_data.get('password') == serializer.validated_data.get('password_check'):
+                user = serializer.save()
+                user.set_password(password)
+                user.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @login_required

@@ -24,11 +24,19 @@
   
   - URL 설계
 
-- 완료:
+  - ERD, Story Board 작성
+
+- 완료: 
+  
+  - ERD, Story Board 작성
 
 - 발생한 문제점:
   
-  - ERD 만들기 어려움
+  - dumpdata는 DB에 저장된 Data를 JSON으로 만드는 과정이므로 model을 작성해서 DB로 만든 뒤 dumpdata를 실행하면 정제된 JSON 추출 가능
+  
+    - model 제작이 우선이 되어야 함
+
+  - 
 
 - 수정여부:
 
@@ -112,4 +120,10 @@
 
 # 아키텍처
 
-![img](img)
+## Version 1
+
+### [ERD]
+
+![img](./process/ERD/ERD%20v1.PNG)
+
+### [Story Board]
