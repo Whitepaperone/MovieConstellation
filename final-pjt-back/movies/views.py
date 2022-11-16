@@ -1,16 +1,28 @@
 from django.shortcuts import render
 from django.views.decorators.http import require_safe
 from django.http import JsonResponse
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from .models import Movie, Genre
+from .serializers import MovieSerializer
 
 # Create your views here.
-@require_safe
-def index(request):
-    movies = Movie.objects.all()
-    context = {
-        "movies": movies,
-    }
-    return render(request, "movies/index.html", context)
+
+@api_view(['GET', 'POST'])
+def movie_list_create(request):
+    if request.method=='GET':
+        movies=Movie.objects.all()
+        serializer = MovieSerializer(movies,many=True)
+        return Response(serializer.data)
+
+# @require_safe
+# def index(request):
+#     movies = Movie.objects.all()
+#     context = {
+#         "movies": movies,
+#     }
+#     return render(request, "movies/index.html", context)
     
 @require_safe
 def detail(request, movie_pk):

@@ -25,8 +25,8 @@ export default new Vuex.Store({
          
         })
         .then((response) => {
-          console.log(response)
-          context.commit("GET_MOVIE", response.data.results)
+          console.log(response.data)
+          context.commit("GET_MOVIE", response.data)
         })
         .catch((error) => {
           console.log(error)
