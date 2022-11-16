@@ -12,7 +12,10 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from .serializers import (
+    SignUpSerializer,
+    ProfileSerializer,
+)
 from rest_framework.permissions import (
     IsAuthenticated,
     AllowAny,
@@ -26,7 +29,7 @@ def signup(request):
     #     return Response(todoserializer.data)
     
     if request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
+        serializer = SignUpSerializer(data=request.data)
         password = serializer.initial_data.get('password')
 
         if serializer.is_valid(raise_exception=True):
@@ -39,20 +42,19 @@ def signup(request):
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
-@login_required
+# 로그인 필요
 def profile(request, username):
-    person = get_object_or_404(get_user_model(), username=username)
-    context = {
-        'person': person,
-    }
-    return render(request, 'accounts/profile.html', context)
+    User = get_user_model()
+    person = get_object_or_404(User, username=username)
+    serializer = ProfileSerializer(person)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@require_POST
+# @require_POST
 def follow(request, user_pk):
     if request.user.is_authenticated:
-        person = get_object_or_404(get_user_model(), pk=user_pk)
+        User = get_user_model()
+        person = get_object_or_404(User, pk=user_pk)
         user = request.user
         if person != user:
             if person.followers.filter(pk=user.pk).exists():

@@ -25,6 +25,8 @@
   - URL 설계
 
   - ERD, Story Board 작성
+  
+  - VUE와 DRF 연동
 
 - 완료: 
   
@@ -36,7 +38,13 @@
   
     - model 제작이 우선이 되어야 함
 
-  - 
+  - 업무 분담: 하루에 얼마나 할 수 있는지 모름.
+
+    - 오늘 해보고 내일 결정, 근데 시간이 부족함
+  
+  - Profile의 followings에 JSONRESPONSE가 어떻게 도달하는지 VUE에서 확인을 못함
+  
+    - VUE에서 데이터 확인해보고 VUE 작성
 
 - 수정여부:
 
