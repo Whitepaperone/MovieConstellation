@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <hr>
+  <div id="searchPart">
+    <h3>장르</h3>
+    <div>
+      {% for genre in genres %}
+        <button class="genre active btn btn-primary content-font" data-genre-id="{{ genre.pk }}">{{ genre.name }}</button>
+      {% endfor %}
+    </div>
+    <hr>
+     <h3>연대</h3>
+    <div>
+      <button class="year active btn btn-primary content-font">1990년대 이전</button>
+      <button class="year active btn btn-primary content-font">1990년대</button>
+      <button class="year active btn btn-primary content-font">2000년대</button>
+      <button class="year active btn btn-primary content-font">2010년대</button>
+      <button class="year active btn btn-primary content-font">2020년대</button>
+    </div>
+    <hr>
+    <button class="recom active btn btn-danger content-font">추천</button>
+  </div>
+  <div id="moviePart">
+    <div id="movieDiv" class="row row-cols-3 row-cols-md-3 g-4">
+      {% for movie in movies %}
+        <div class="col">
+          <div class="card h-100">
+            <img src="{{ movie.poster_path }}" alt="" style="height:80%">
+            <div class="card-body">
+              <h5 class="card-title text-center fw-bold"> 제목 : {{ movie.title }}</h5>
+              <p class="card-text">⭐ 평점 : {{ movie.vote_average }}</p>
+              <a href="{% url 'movies:detail' movie.pk %}">상세 보기</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+  </div>
+
+  <script>
+    const btnGenre = document.querySelectorAll('.genre')
+    const btnYear = document.querySelectorAll('.year')
+    const btnRec = document.querySelector('.recom')
+    
+    let selected = {
+      'genre': '',
+      'year': '',
+    }
+    btnGenre.forEach((btn)=>{
+      btn.addEventListener('click', function (event) {
+        const genreId = event.target.dataset.genreId
+        selected.genre = genreId
+      })
+    })
+    btnYear.forEach((btn)=>{
+      btn.addEventListener('click', function (event) {
+        selected.year = btn.innerText
+      })
+    })
+
+    btnRec.addEventListener('click', function (event) {
+      event.preventDefault()
+      console.log(selected)
+      clearall()
+      axios({
+        method: "get",
+        url: '/movies/recommendeddata/',
+        params: selected,
+      })
+      .then((response) => {
+        const movieList = response.data.moviesList
+        movieList.forEach((movie) => {
+          const moviePk = movie.pk
+          const movieTitle = movie.title
+          const movieDate = movie.release_date
+          const voteAvg = movie.vote_average
+          const posterPath = movie.poster_path
+
+          const div1 = document.createElement('div')
+          div1.setAttribute('class', 'col')
+          const div2 = document.createElement('div')
+          div2.setAttribute('class', 'card h-100')
+          const img = document.createElement('img')
+          img.setAttribute('src', posterPath)
+          img.setAttribute('class', 'card-img-top')
+          img.setAttribute('style', 'height:80%')
+
+          const div3 = document.createElement('div')
+          div3.setAttribute('class', 'card-body')
+          
+          const cardTitle = document.createElement('h5')
+          cardTitle.setAttribute('class', 'card-title text-center fw-bold')
+          cardTitle.innerText = `제목 : ${movieTitle}`
+          const cardText = document.createElement('p')
+          cardText.setAttribute('class', 'card-text text-center')
+          cardText.innerText = `⭐ 평점 : ${voteAvg}`
+          const cardLink = document.createElement('a')
+          cardLink.setAttribute('href', `/movies/${moviePk}/`)
+          cardLink.innerText = "상세보기"
+
+          const parentDiv = document.querySelector('#movieDiv')
+          parentDiv.appendChild(div1)
+          div1.appendChild(div2)
+          div2.append(img, div3)
+          div3.append(cardTitle, cardText, cardLink)
+        })
+      })
+    })
+
+    function clearall() {
+      const parent = document.querySelector('#movieDiv')
+      while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+      }
+    }
+  </script>
+{% endblock %}
