@@ -21,14 +21,11 @@ export default new Vuex.Store({
     getMovie(context) {
         axios({
           method: 'get',
-          url : 'https://api.themoviedb.org/3/movie/top_rated',
-          params: {
-            api_key: process.env.VUE_APP_API,
-            language: 'ko-KR',
-            page: 1,
-          }
+          url : 'http://127.0.0.1:8000/movies/',
+         
         })
         .then((response) => {
+          console.log(response)
           context.commit("GET_MOVIE", response.data.results)
         })
         .catch((error) => {
