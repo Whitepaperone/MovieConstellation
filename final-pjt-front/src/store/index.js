@@ -14,8 +14,8 @@ export default new Vuex.Store({
   },
   mutations: {
     GET_MOVIE(state, results) {
-        state.movies = results
-    }
+      state.movies = results
+    },
   },
   actions: {
     getMovie(context) {
@@ -32,6 +32,7 @@ export default new Vuex.Store({
           console.log(error)
         })
       },
+      
   },
   modules: {
   }

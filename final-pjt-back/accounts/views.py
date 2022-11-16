@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from .serializers import (
     SignUpSerializer,
     ProfileSerializer,
+    UserSerializer,
 )
 from rest_framework.permissions import (
     IsAuthenticated,
@@ -42,6 +43,15 @@ def signup(request):
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
+def user(request, username):
+    User = get_user_model()
+    user = User.objects.all(username=username)
+    serializer = UserSerializer(user)
+    
+    return Response(serializer.data)
+
+
 # 로그인 필요
 def profile(request, username):
     User = get_user_model()
@@ -52,21 +62,25 @@ def profile(request, username):
 
 # @require_POST
 def follow(request, user_pk):
-    if request.user.is_authenticated:
-        User = get_user_model()
-        person = get_object_or_404(User, pk=user_pk)
-        user = request.user
-        if person != user:
-            if person.followers.filter(pk=user.pk).exists():
-                person.followers.remove(user)
-                is_followed = False
-            else:
-                person.followers.add(user)
-                is_followed = True
-            context = {
-                'is_followed': is_followed,
-                'followers_count': person.followers.count(),
-                'followings_count': person.followings.count(),
-            }
-            return JsonResponse(context)
-    return redirect('accounts:profile', person.username)
+    pass
+    # if request.user.is_authenticated:
+    #     print(1)
+    #     User = get_user_model()
+    #     print(2)
+    #     print(User)
+    #     person = get_object_or_404(User, pk=user_pk)
+    #     user = request.user
+    #     if person != user:
+    #         if person.followers.filter(pk=user.pk).exists():
+    #             person.followers.remove(user)
+    #             is_followed = False
+    #         else:
+    #             person.followers.add(user)
+    #             is_followed = True
+    #         context = {
+    #             'is_followed': is_followed,
+    #             'followers_count': person.followers.count(),
+    #             'followings_count': person.followings.count(),
+    #         }
+    #         return JsonResponse(context)
+    # return redirect('accounts:profile', person.username)

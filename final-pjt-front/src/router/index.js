@@ -7,6 +7,7 @@ import WatchList from '../views/movie/WatchList.vue'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import Logout from '@/views/accounts/Logout'
+import User from '@/views/accounts/User'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ const routes = [
     path: '/accounts/logout',
     name: 'Logout',
     component: Logout,
+  },
+  {
+    path: '/accounts/profile/:username',
+    name: 'User',
+    component: User,
   },
 ]
 

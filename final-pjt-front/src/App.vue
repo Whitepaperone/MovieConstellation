@@ -42,6 +42,15 @@
                 </router-link>
               </li>
 
+              <li class="nav-item me-5 dropdown">
+                <router-link :to="{ 
+                  name : 'User',
+                  params : 'junho'   
+                }">
+                  User
+                </router-link>
+              </li>
+
             </ul>
           </div>        
         </div>
