@@ -13,19 +13,19 @@
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
               
               <li class="nav-item me-5 ">
-                <router-link to="/">
+                <router-link :to="{name: movieview}">
                   Movie
                 </router-link> 
               </li>
 
               <li class="nav-item me-5">
-                <router-link to="/random">
+                <router-link :to="{name: randomview}">
                   Random
                 </router-link>
               </li>
 
               <li class="nav-item me-5 dropdown">
-                <router-link to="/watch">
+                <router-link :to="{name : watchlist}">
                   WatchList
                 </router-link>
               </li>

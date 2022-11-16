@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import MovieView from '../views/MovieView.vue'
-import RandomView from '../views/RandomView.vue'
-import WatchList from '../views/WatchList.vue'
+import MovieView from '../views/movie/MovieView.vue'
+import RandomView from '../views/movie/RandomView.vue'
+import WatchList from '../views/movie/WatchList.vue'
 
 Vue.use(VueRouter)
 

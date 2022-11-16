@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import MovieViewCard from '@/views/MovieViewCard.vue'
+import MovieViewCard from '@/views/movie/MovieViewCard'
 
 export default {
   name: 'MovieView',
