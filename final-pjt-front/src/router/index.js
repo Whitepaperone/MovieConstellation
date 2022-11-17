@@ -50,8 +50,8 @@ const routes = [
   },
   {
     path: '/accounts/profile/:username',
-    name: 'User',
-    component: User,
+    name: 'Profile',
+    component: Profile,
   },
 ]
 

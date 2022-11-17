@@ -11,15 +11,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         # 프로필시 입력할 정보
-        fields = ('username', 'followings',)
+        fields = ('username', 'followings', 'id')
+        # fields = '__all__'
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         # 프로필시 입력할 정보
         fields = ('username', 'followings',)
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = get_user_model()
-        fields = '__all__'

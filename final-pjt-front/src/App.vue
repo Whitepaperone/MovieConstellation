@@ -29,6 +29,11 @@
                   WatchList
                 </router-link>
               </li>
+              <li class="nav-item me-5 dropdown">
+                <router-link :to="{name : 'searchmovie'}">
+                  Search
+                </router-link>
+              </li>
 
               <li class="nav-item me-5 dropdown">
                 <router-link :to="{name : 'Login'}">
@@ -42,26 +47,37 @@
                 </router-link>
               </li>
 
-              <li class="nav-item me-5 dropdown">
-                <router-link :to="{ 
-                  name : 'User',
-                  params : 'junho'   
-                }">
-                  User
+              <li
+                v-if="isLogIn" 
+                class="nav-item me-5 dropdown">
+                <router-link
+                  :to="{ 
+                    name : 'Profile',
+                    params : { username:username },  
+                  }"
+                >
+                  Profile
                 </router-link>
               </li>
 
-              <li class="nav-item me-5 dropdown">
-                <router-link :to="{name : 'searchmovie'}">
-                  Search
+              <li
+                v-if="isLogIn" 
+                class="nav-item me-5 dropdown">
+                <router-link :to="{ name : 'Logout' }">
+                  Logout
                 </router-link>
               </li>
+
             </ul>
           </div>        
         </div>
       </div>
+      
     </nav>
-    <router-view/>
+    <router-view
+      @login="logIn"
+      @logout="logOut"
+    />
     
   </div>
 </template>
@@ -74,18 +90,38 @@ export default {
   },
   data() {
     return {
+      isLogIn: false,
     }
   },
   computed: {
     movies() {
       return this.$store.state.movies
-    }
+    },
+    username() {
+      return this.$store.state.username
+    },
   },
   methods: {
-    
+    logIn(username) {
+      this.isLogIn = true
+      this.$store.state.username = username
+    },
+    logOut() {
+      this.isLogIn = false
+      this.username = null
+    }, 
+    checkJWT() {
+      if (localStorage.getItem('jwt')) {
+        this.isLogIn = true
+      } else {
+        this.isLogIn = false
+      }
+    },
   },
   created() {
     this.$store.dispatch("getMovie")
+    this.$store.dispatch("getUserName")
+    this.checkJWT()
   }
 }
 </script>
