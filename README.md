@@ -64,6 +64,7 @@
   - 라이프 사이클을 고려하지 않은 변수 선언
   - 영화 검색 시 즉각적인 동기화가 이루어지지 않음
   - 새로고침하면 state에 저장된 모든 USER 관련 자료가 사라짐
+    - APP.vue에 있는 username이 state에 반영될 때를 감시하고 있다가, 반영이 되면 axios를 찍을 수 있게 watch로 구현
 - 수정여부:
   - accounts 나중에 하기로
   - 일단 community와 movie 기능들부터 하는 것으로
