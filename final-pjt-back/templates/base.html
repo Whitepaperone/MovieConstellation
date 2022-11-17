@@ -22,7 +22,7 @@
           <a class="active text-decoration-none text-white" aria-current="page" href="{% url 'community:create' %}"><i class="fas fa-plus"></i></a>
           <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item">
-              {% if request.user.is_authenticated %}
+              {% comment %} {% if request.user.is_authenticated %}
                 <span class="me-3 content-font">환영합니다, {{ request.user }}님!</span>
                 <a href="{% url 'accounts:profile' request.user.username %}" class="active btn btn-success content-font">내 프로필</a>
                 <form action="{% url 'accounts:logout' %}" method="POST" class="d-inline">
@@ -33,7 +33,7 @@
                 <span class="me-3 content-font">환영합니다, 손님!</span>
                 <a class="active btn btn-primary content-font" aria-current="page" href="{% url 'accounts:login' %}">로그인</a>
                 <a class="active btn btn-light content-font" aria-current="page" href="{% url 'accounts:signup' %}">회원가입</a>
-              {% endif %}
+              {% endif %} {% endcomment %}
             </li>
           </ul>
         </div>

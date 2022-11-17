@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import MovieView from '../views/movie/MovieView.vue'
 import RandomView from '../views/movie/RandomView.vue'
 import WatchList from '../views/movie/WatchList.vue'
+import SearchMovieView from '@/views/movie/SearchMovieView'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import Logout from '@/views/accounts/Logout'
@@ -26,6 +27,11 @@ const routes = [
     path:'/watch',
     name:'watchlist',
     component : WatchList
+  },
+  {
+    path:'/search',
+    name:'searchmovie',
+    component : SearchMovieView
   },
   {
     path: '/accounts/signup',
