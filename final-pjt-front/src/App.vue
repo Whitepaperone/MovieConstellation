@@ -35,13 +35,17 @@
                 </router-link>
               </li>
 
-              <li class="nav-item me-5 dropdown">
+              <li 
+                v-if="!isLogIn" 
+                class="nav-item me-5 dropdown">
                 <router-link :to="{name : 'Login'}">
                   Login
                 </router-link>
               </li>
 
-              <li class="nav-item me-5 dropdown">
+              <li 
+                v-if="!isLogIn"
+                class="nav-item me-5 dropdown">
                 <router-link :to="{name : 'Signup'}">
                   Signup
                 </router-link>
@@ -77,8 +81,10 @@
     <router-view
       @login="logIn"
       @logout="logOut"
+      :user="user"
     />
-    
+    <p>state.user = {{this.$store.state.user}}</p>
+    <p>computed.user = {{user}}</p>
   </div>
 </template>
 
@@ -91,14 +97,15 @@ export default {
   data() {
     return {
       isLogIn: false,
+      username : ''
     }
   },
   computed: {
     movies() {
       return this.$store.state.movies
     },
-    username() {
-      return this.$store.state.username
+    user() {
+      return this.$store.state.user
     },
   },
   methods: {
@@ -117,12 +124,18 @@ export default {
         this.isLogIn = false
       }
     },
+    updateUserInfo() {
+      this.username = localStorage.getItem('username')
+      if (localStorage.getItem('username')) {
+        this.$store.dispatch("getUser")
+      }
+    }
   },
   created() {
     this.$store.dispatch("getMovie")
-    this.$store.dispatch("getUserName")
     this.checkJWT()
-  }
+    this.updateUserInfo()
+  },
 }
 </script>
 

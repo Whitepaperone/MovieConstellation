@@ -49,15 +49,16 @@ export default {
       })
       .then((res) => {
         localStorage.setItem('jwt', res.data.access)
-        // user 정보 따오는 곳
-        const username = this.username
-        const payload = {
-          username
-        }
-        this.$store.dispatch('getUser', payload)
-
-        // username으로 profile vue 열려고 작업하는 곳
         localStorage.setItem('username', username)
+        // user 정보 따오는 곳
+        // const username = this.username
+        // const payload = {
+        //   username
+        // }
+        // this.$store.dispatch('getUser', payload)
+        this.$store.dispatch('getUser')
+        // username으로 profile vue 열려고 작업하는 곳
+        
         this.$emit('login', this.username)
         this.$router.push({name: 'movieview'})
       })

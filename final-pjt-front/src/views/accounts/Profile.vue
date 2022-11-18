@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>{{ username }}'s Profile</h1>
+        <p>profile.vue user = {{user}}</p>
         <div>
             <FollowersVue
                 :user="user"
@@ -16,11 +17,11 @@ name: 'Profile',
 components: {
     FollowersVue,
 },
+props: {
+    user: Object
+},
 data() {
     return {
-        // user : localStorage.getItem('user'),
-        user: null,
-        username : null
     }
 },
 computed: {
@@ -28,15 +29,11 @@ computed: {
 },
 methods: {
     getUserName() {
-        this.username = this.$store.state.username
+        this.username = localStorage.getItem('username')
     },
-    getUserInfo() {
-        this.user=this.$store.state.user
-    }
 },
 created() {
     this.getUserName()
-    this.getUserInfo()
 }
 }
 </script>

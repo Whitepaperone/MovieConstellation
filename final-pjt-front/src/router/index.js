@@ -8,7 +8,7 @@ import SearchMovieView from '@/views/movie/SearchMovieView'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import Logout from '@/views/accounts/Logout'
-import User from '@/views/accounts/User'
+import Profile from '@/views/accounts/Profile'
 
 Vue.use(VueRouter)
 

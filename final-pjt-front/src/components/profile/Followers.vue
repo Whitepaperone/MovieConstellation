@@ -1,6 +1,7 @@
 <template>
   <div>
-    {{user}}
+    <p @click="print">components followers.vue user = {{user}}</p>
+    <p>components followings = {{user.followings.length}}</p>
   </div>
 </template>
 
@@ -10,8 +11,15 @@ export default {
   props: {
     user: Object
   },
+  data() {
+    return {
+      
+    }
+  },
   methods: {
-    
+    print() {
+      console.log(user)
+    }
   }
 
 }
