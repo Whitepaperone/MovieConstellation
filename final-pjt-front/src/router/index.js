@@ -6,7 +6,6 @@ import RandomView from '../views/movie/RandomView.vue'
 import WatchList from '../views/movie/WatchList.vue'
 import SearchMovieView from '@/views/movie/SearchMovieView'
 import MovieViewCardDetail from '@/views/movie/MovieViewCardDetail'
-
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import Logout from '@/views/accounts/Logout'
@@ -21,7 +20,7 @@ const routes = [
     component: MovieView
   },
   {
-    path:'/black-hole',
+    path:'/random',
     name:'randomview',
     component : RandomView
   },
@@ -39,6 +38,9 @@ const routes = [
     path:'/detail',
     name:'detailmovie',
     component : MovieViewCardDetail
+  },
+  {
+    path:'/'
   },
   {
     path: '/accounts/signup',
