@@ -7,8 +7,8 @@
           @input="searchMovie" />
     <button @click="searchMovie">+</button>
     <MovieViewCard
-      v-for="movie in movies.moviesList"
-      :key="movie.id"
+      v-for="movie in search_movies"
+      :key="movie.title"
       :movie="movie"
     />
     </div>
@@ -29,17 +29,13 @@ export default {
     }
   },
   computed:{
-    movies(){
-      return this.movies
+    search_movies(){
+      return this.movies.moviesList
     }
   },
  
   methods:{
     searchMovie(){
-      let selected={
-        'search':'',
-      }
-      selected.search=this.searchValue
        axios({
           method: 'get',
           url : 'http://127.0.0.1:8000/movies/search/',
@@ -48,6 +44,7 @@ export default {
         .then((response) => {
           console.log(response.data)
           this.movies=response.data
+          this.movies.sort
         })
         .catch((error) => {
           console.log(error)
