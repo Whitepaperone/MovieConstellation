@@ -15,6 +15,7 @@
 import _ from 'lodash'
   
 export default {
+  name:'RandomView',
   data(){
     return {
       poster: '',

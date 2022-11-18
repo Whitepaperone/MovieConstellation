@@ -78,6 +78,9 @@
       </div>
       
     </nav>
+    <div>
+      <router-link :to="{ name: 'randomview' }">[BLACKHOLE]</router-link>
+    </div>
     <router-view
       @login="logIn"
       @logout="logOut"

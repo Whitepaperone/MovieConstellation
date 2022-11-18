@@ -5,13 +5,14 @@
       <div class="card-body">
         <h5 class="card-title"><b>{{ title }}</b></h5>
         <p class="card-text">{{ overview }}</p>
-        <router-link :to="{ name : 'detailmovie' }" :movie="this.movie">[Detail]</router-link>
+        <router-link :to="{ name : 'detailmovie', params: {movie: movie} }" :movie="movie">[Detail]</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
 import _ from 'lodash'
 export default {
   name: 'MovieViewCard',
