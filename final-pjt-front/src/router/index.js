@@ -36,9 +36,10 @@ const routes = [
     component : SearchMovieView
   },
   {
-    path:'/detail',
+    path:'/:movieId/detail',
     name:'detailmovie',
-    component : MovieViewCardDetail
+    component : MovieViewCardDetail,
+    props:{newsletterPopup: false}
   },
   {
     path: '/accounts/signup',

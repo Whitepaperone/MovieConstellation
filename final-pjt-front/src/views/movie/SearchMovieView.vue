@@ -1,7 +1,6 @@
 <template>
   <div>SearchView
     <input
-          v-model="searchValue"
           type="text"
           placeholder="검색할 영화"
           @input="searchMovie" />
@@ -30,16 +29,16 @@ export default {
   },
   computed:{
     search_movies(){
-      return this.movies.moviesList
+      return this.movies.movies
     }
   },
  
   methods:{
-    searchMovie(){
+    searchMovie:function(event){
        axios({
           method: 'get',
           url : 'http://127.0.0.1:8000/movies/search/',
-          params:{'search':this.searchValue},
+          params:{'search':event.target.value},
         })
         .then((response) => {
           console.log(response.data)

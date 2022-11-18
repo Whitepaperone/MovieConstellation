@@ -5,7 +5,7 @@
       <div class="card-body">
         <h5 class="card-title"><b>{{ title }}</b></h5>
         <p class="card-text">{{ overview }}</p>
-        <router-link :to="{ name : 'detailmovie', props: {movie} }">[Detail]</router-link>
+        <router-link :to="{ name : 'detailmovie', params: { movieId: movies.id} }">[Detail]</router-link>
       </div>
     </div>
   </div>
@@ -23,7 +23,8 @@ export default {
     return {
       title: this.movie.title,
       overview:_.truncate(this.movie.overview,{length:50}), 
-      poster_path:this.movie.poster_path  
+      poster_path:this.movie.poster_path,
+      movies: this.movie
     }
   }
 }

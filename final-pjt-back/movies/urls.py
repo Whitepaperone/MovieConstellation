@@ -9,6 +9,7 @@ urlpatterns = [
     # path('search/<str:search_keyword>/', views.SearchFormView.as_view(), name='search'),
     path('search/', views.search_movie, name='search'),
     path('<int:movie_pk>/', views.detail, name='detail'),
+     path('<int:movie_pk>/update/', views.update, name='update'),
     path('recommended/', views.recommended, name='recommended'),
     path('recommendeddata/',views.recommendeddata, name='recommendeddata'),
 ]

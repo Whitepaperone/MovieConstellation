@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_safe
 from django.http import JsonResponse
 from rest_framework import status
@@ -23,15 +23,15 @@ def movie_list_create(request):
 
 def search_movie(request):
     searchWord=request.GET.get('search')
-    print(searchWord)
     if searchWord:
-        post_list = Movie.objects.filter(Q(title__icontains=searchWord) | Q(overview__icontains=searchWord) | Q(genres__name__icontains=searchWord)).distinct()
+        post_list = Movie.objects.filter(
+            Q(title__icontains=searchWord) | Q(overview__icontains=searchWord) | Q(genres__name__icontains=searchWord)
+            ).distinct()
         serializer=MovieSerializer(post_list,many=True)
-        print(serializer.data)
         movie_list=[]
         for movie in post_list:
             movie_list.append({
-                'pk': movie.pk,
+                'id': movie.pk,
                 'title': movie.title,
                 'popularity':movie.popularity,
                 'release_date': movie.release_date,
@@ -42,9 +42,8 @@ def search_movie(request):
                 'poster_path': movie.poster_path,
             })
         serializer = MovieSerializer(movie_list,many=True)
-        print(movie_list)
         response = {
-        'moviesList': serializer.data,
+        'movies': serializer.data,
     }
     return JsonResponse(response)
 
@@ -72,13 +71,34 @@ class SearchFormView(FormView):
 #     }
 #     return render(request, "movies/index.html", context)
     
-@require_safe
-def detail(request, movie_pk):
-    movie = Movie.objects.get(pk=movie_pk) 
-    context = {
-        'movie': movie,
-    }
-    return render(request, 'movies/detail.html', context)
+# @require_safe
+# def detail(request, movie_pk):
+#     movie = Movie.objects.get(pk=movie_pk) 
+#     context = {
+#         'movie': movie,
+#     }
+#     return render(request, 'movies/detail.html', context)
+
+
+@api_view(['GET', 'POST'])
+def detail(request,movie_pk):
+    
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if request.method=='GET':
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def update(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if request.method == 'PUT':
+        serializer = MovieSerializer(movie, data=request.data)
+        print(serializer,movie_pk)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    
 
 @require_safe
 def recommended(request):
