@@ -72,9 +72,25 @@
 ## 11/18 (금)
 
 - 회의:
+  - Playlist DB Schema 구성
+  - 업무 분담
+  - 
 - 목표:
+  - Playlist Modeling
+  - DetailView.vue 구현
+  - RandomView.vue 구현
+  - Follower/Following views.py 구현
+  - Follower/Following data 받기
 - 완료:
+  - Playlist Modeling
+  - RandomView.vue 구현
+  - Follower/Following views.py 구현
+  - Follower/Following data 받기(0.5)
+
 - 발생한 문제점:
+  - DetailView props 전달이 되지 않음
+  - JSONResponse를 통한 데이터 전달 시, axios오류 발생
+  
 - 수정여부:
 
 ## 11/19 (토)

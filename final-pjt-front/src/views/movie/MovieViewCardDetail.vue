@@ -18,23 +18,18 @@ props:{
 },
 data() {
     return {
-      movie: this.$route.params,
       title: this.movie.title,
-      overview:this.movie.overview, 
-      poster_path:this.movie.poster_path  
     }
   },
   methods:{
-    getDetail(){
-      console.log(this.$route.params)
-      if (this.movie){
-        console.log(this.movie)
-      }
-      else{
-        console.log(this.movie)
-      }
-    }
-  }
+    getMovie(){
+      console.log(this.movie)
+      this.movie
+    },
+  },
+  created(){
+    this.getMovie()
+  },
 }
 </script>
 
