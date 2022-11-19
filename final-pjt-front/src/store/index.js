@@ -9,6 +9,7 @@ export default new Vuex.Store({
     // createPersustedState()
   ],
   state: {
+    recommend_movies_genre:null,
     like_movies:null,
     movies: null,
     user: null,
@@ -28,9 +29,13 @@ export default new Vuex.Store({
     REMOVE_USER(state) {
       state.user = null
       state.username = null
+      state.like_movies=null
     },
     GET_LIKE_MOVIE(state,results){
       state.like_movies=results
+    },
+    GET_RECOMMEND_MOVIE_GENRE(state,results){
+      state.recommend_movies_genre=results
     }
   },
   actions: {
@@ -42,7 +47,7 @@ export default new Vuex.Store({
         url : `${API_URL}/movies/`,
       })
       .then((response) => {
-        // console.log(response.data)
+        console.log(response.data)
         context.commit("GET_MOVIE", response.data)
       })
       .catch((error) => {
@@ -64,6 +69,20 @@ export default new Vuex.Store({
         console.log(error)
       })
     },
+    recommendWithGenre(context,user_id){
+      console.log('recommend with Genre')
+      axios({
+         method: 'get',
+         url : `http://127.0.0.1:8000/movies/${user_id}/recommend/`,
+       })
+       .then((response) => {
+         console.log(response.data)
+         context.commit("GET_RECOMMEND_MOVIE_GENRE",response.data)
+       })
+       .catch((error) => {
+         console.log(error)
+       })
+   },
     getUser(context) {
       const API_URL = 'http://127.0.0.1:8000'
       

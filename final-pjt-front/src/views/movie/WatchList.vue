@@ -52,7 +52,10 @@ export default {
     }
   },
   created(){
-    this.$store.dispatch("getLikeMovie",this.$store.state.user.id)
+    if (this.$store.state.user.id){
+
+      this.$store.dispatch("getLikeMovie",this.$store.state.user.id)
+    }
   }
 }
 </script>

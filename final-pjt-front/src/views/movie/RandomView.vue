@@ -1,6 +1,6 @@
 <template>
   <div class="" style="margin-top:20px;">
-    <button type="button" class="btn btn-success" style="margin-bottom:10px; width:32rem"  @click="randomPick()" >pick</button> <br>
+    <button type="button" class="btn btn-success" style="margin-bottom:10px; width:32rem"  @click="randomPick()" >next</button> <br>
     <div class="card mx-auto" style="width: 32rem;">
       <img :src="poster" alt="" style="width:31rem; margin: 7px">
       <div class="card-body">
@@ -24,24 +24,29 @@ export default {
     }
   },
   computed: {
-    movies() {
-      return this.$store.state.movies
+    // movies() {
+    //   return this.$store.state.movies
+    // }
+    movies(){
+      return this.$store.state.recommend_movies_genre
     }
   },
   methods:{
     randomPick(){
-      console.log('clicked pick')
+      // console.log(this.movies.length)
       // this.number = Math.floor(Math.random() * this.movies.length);
-      this.number = _.sampleSize(_.range(0,this.movies.length),1)
       this.poster = 'http://image.tmdb.org/t/p/w185' + this.movies[this.number].poster_path,
       this.title = this.movies[this.number].title
+      this.number = this.number+1
     },
+    
   },
-  watch: {
-    movies : 'randomPick',
-  },
+  // watch: {
+  //   movies : 'randomPick',
+  // },
   created(){
     console.log('created random')
+    this.$store.dispatch('recommendWithGenre',this.$store.state.user.id)
     this.randomPick()
   }
 

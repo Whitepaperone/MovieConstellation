@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view
 from .models import Movie, Genre
 from .serializers import MovieSerializer
 
+from django.http import HttpResponse
+
 from django.views.generic import FormView
 from .forms import PostSearchForm
 from django.db.models import Q
@@ -98,16 +100,16 @@ def update(request, movie_pk):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
-    
-@api_view(['GET'])
-def like(request, user_pk):
-#     searchWord=request.GET.get('search')
-#     if searchWord:
+
+
+
+def like_movie(user_pk):
     movies=Movie.objects.all()
     user_movie_list=[]
     for movie in movies:
         if movie.like_users.filter(pk=user_pk).exists():
-            user_movie_list.append({'id': movie.pk,
+            user_movie_list.append(
+                {'id': movie.pk,
                 'title': movie.title,
                 'popularity':movie.popularity,
                 'release_date': movie.release_date,
@@ -116,28 +118,40 @@ def like(request, user_pk):
                 'overview':movie.overview,
                 'genres':movie.genres,
                 'poster_path': movie.poster_path,})
-    print(user_movie_list)
-    serializer=MovieSerializer(user_movie_list,many=True)
-    print(serializer.data)
-    return Response(serializer.data)
-    # if request.user.is_authenticated:
-    #     review = get_object_or_404(Review, pk=review_pk)
-    #     user = request.user
+    return user_movie_list
 
-    #     if review.like_users.filter(pk=user.pk).exists():
-    #         review.like_users.remove(user)
-    #         is_liked = False
-    #     else:
-    #         review.like_users.add(user)
-    #         is_liked = True
-        
-    #     like_count = review.like_users.count()    
-    #     context = {
-    #         'like_count': like_count,
-    #         'is_liked': is_liked,
-    #     }
-    #     return JsonResponse(context)
-    # return redirect('accounts:login')
+@api_view(['GET'])
+def like(request, user_pk):
+    user_movie_list=like_movie(user_pk)
+    serializer = MovieSerializer(user_movie_list,many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def recommend_with_genre(request, user_pk):
+    like_movies=like_movie(user_pk)
+    like_movies_id=[]
+    movies=Movie.objects.all()
+    genres=Genre.objects.all()
+    like_genres=set()
+    for i in like_movies:
+        like_movies_id.append(i['id'])
+        for g in i['genres'].all():
+            like_genres.add(g)
+    res=[movie for movie in  movies if movie.id not in like_movies_id]
+    recommend={}
+    for j in res:
+        recommend[j.id]=0
+        for g in j.genres.all():
+            for genre in like_genres:
+                if g==genre:
+                    recommend[j.id]+=1
+    recommend_list=sorted(recommend.items(), key=lambda item: item[1],reverse=True)
+    recommend_movie=[]
+    for k,v in recommend_list:
+        recommend_movie.append(get_object_or_404(Movie, pk=k))
+    serializer=MovieSerializer(recommend_movie,many=True)
+    return Response(serializer.data)
 
 @require_safe
 def recommended(request):
