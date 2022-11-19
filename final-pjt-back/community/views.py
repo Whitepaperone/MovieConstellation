@@ -12,15 +12,20 @@ from rest_framework.permissions import (
     IsAuthenticated,
     AllowAny,
     )
-from .models import Review
+from .models import Playlist
 from .serializers import PlayListListSerializer, PlayListSerializer
 
 
 @api_view(['GET', 'POST'])
 def playlist_list(request):
     if request.method == 'GET':
-        playlists = get_list_or_404(Review)
-        serializer =PlayListListSerializer(playlists, many=True)
+        playlists = Playlist.objects.all()
+        my_playlist = []
+        for playlist in playlists:
+            print(playlist)
+            if playlist.user_id==request.user.id:
+                my_playlist.append(playlist)
+        serializer =PlayListListSerializer(my_playlist, many=True)
         return Response(serializer.data)
     
     elif request.method == 'POST':
@@ -30,22 +35,23 @@ def playlist_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
+@api_view(['GET', 'DELETE', 'PUT'])
+def playlist_detail(request, playlist_pk):
+    playlist = get_object_or_404(Playlist, pk=playlist_pk)
 
-# @require_http_methods(['GET', 'POST'])
-# def create(request):
-#     if request.method == 'POST':
-#         form = ReviewForm(request.POST) 
-#         if form.is_valid():
-#             review = form.save(commit=False)
-#             review.user = request.user
-#             review.save()
-#             return redirect('community:detail', review.pk)
-#     else:
-#         form = ReviewForm()
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'community/create.html', context)
+    if request.method == 'GET':
+        serializer = PlayListSerializer(playlist)
+        return Response(serializer.data)
+    
+    elif request.method == 'DELETE':
+        playlist.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    elif request.method == 'PUT':
+        serializer = PlayListSerializer(playlist, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
 
 
 # @require_GET

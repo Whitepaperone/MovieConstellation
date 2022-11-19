@@ -1,40 +1,27 @@
 <template>
   <div>
-    <h1>Movie Select</h1>
+    
+    <h1>My Playlist</h1>
     <router-link :to="{name: 'CreatePlayList'}">
-      [CREATE]
+      플레이 리스트 만들기
     </router-link>
     <hr>
-    
+    <PlayListListVue/>
   </div>
 </template>
 
 <script>
-import PlayListList from '@/components/playlist/PlayListList.vue'
-import axios from 'axios';
+import PlayListListVue from '@/components/playlist/PlayListList.vue'
 
 export default {
 name: 'PlayListView',
 components: {
-  PlayListList,
+  PlayListListVue,
 }, 
 methods: {
   getPlayListList() {
-    const API_URL = 'http://127.0.0.1:8000'
     if (localStorage.getItem('jwt')) {
-      axios({
-        method: 'get',
-        url: `${API_URL}/community/`,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwt')}`
-        }
-      })
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      this.$store.dispatch('getPlayList')
     } else {
       alert('로그인이 필요합니다.')
       this.$router.push({name: 'Login'})

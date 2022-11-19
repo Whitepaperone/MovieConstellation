@@ -14,6 +14,7 @@ import Profile from '@/views/accounts/Profile'
 
 import PlayListView from '@/views/community/PlayListView'
 import CreatePlayListView from '@/views/community/CreatePlayListView'
+import PlayListDetailView from '@/views/community/PlayListDetailView'
 
 Vue.use(VueRouter)
 
@@ -81,6 +82,11 @@ const routes = [
     path: '/community/create',
     name: 'CreatePlayList',
     component: CreatePlayListView,
+  },
+  {
+    path: '/community/:id',
+    name: 'PlayListDetailView',
+    component: PlayListDetailView,
   },
 ]
 

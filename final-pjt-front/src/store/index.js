@@ -15,6 +15,7 @@ export default new Vuex.Store({
     user: null,
     username: null,
     picked: [],
+    playlists: [],
   },
   getters: {
 
@@ -36,7 +37,10 @@ export default new Vuex.Store({
     },
     GET_RECOMMEND_MOVIE_GENRE(state,results){
       state.recommend_movies_genre=results
-    }
+    },
+    GET_PLAYLIST(state, playlists) {
+      state.playlists = playlists
+    },
   },
   actions: {
     getMovie(context) {
@@ -93,7 +97,7 @@ export default new Vuex.Store({
           url : `${API_URL}/accounts/profile/${username}/`,
         })
         .then((response) => {
-          console.log(response.data)
+          // console.log(response.data)
           context.commit("GET_USER", response.data)
         })
         .catch((error) => {
@@ -101,6 +105,23 @@ export default new Vuex.Store({
         })
       }
     },
+    getPlayList(context) {
+      const API_URL = 'http://127.0.0.1:8000'
+      axios({
+        method: 'get',
+        url: `${API_URL}/community/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+      .then((res) => {
+        // console.log(res)
+        context.commit('GET_PLAYLIST', res.data)
+      })
+      .catch((err) => {
+        console.log(err.response.data)
+      })
+    }
   },
   modules: {
   }

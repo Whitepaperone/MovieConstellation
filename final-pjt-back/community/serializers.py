@@ -1,13 +1,14 @@
 from rest_framework import serializers
-from .models import Review
+from .models import Playlist
 
 class PlayListListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Review
-        fields = ('title', 'movie_title')
+        model = Playlist
+        fields = '__all__'
+        read_only_fields = ('user', 'like_users')
 
 class PlayListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Review
+        model = Playlist
         fields = '__all__'
         read_only_fields = ('user', 'like_users')
