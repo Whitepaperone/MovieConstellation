@@ -9,6 +9,7 @@ export default new Vuex.Store({
     // createPersustedState()
   ],
   state: {
+    like_movies:null,
     movies: null,
     user: null,
     username: null,
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     REMOVE_USER(state) {
       state.user = null
       state.username = null
+    },
+    GET_LIKE_MOVIE(state,results){
+      state.like_movies=results
     }
   },
   actions: {
@@ -40,6 +44,21 @@ export default new Vuex.Store({
       .then((response) => {
         // console.log(response.data)
         context.commit("GET_MOVIE", response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
+    getLikeMovie(context,user_id){
+      const API_URL = 'http://127.0.0.1:8000'
+
+      axios({
+        method: 'get',
+        url : `${API_URL}/movies/${user_id}/like/`,
+      })
+      .then((response) => {
+        console.log(response.data)
+        context.commit("GET_LIKE_MOVIE", response.data)
       })
       .catch((error) => {
         console.log(error)

@@ -136,6 +136,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getMovie")
+    this.$store.dispatch("getLikeMovie",this.$store.state.user.id)
     this.checkJWT()
     this.updateUserInfo()
   },

@@ -2,6 +2,11 @@
   <div>
     <div class="mx-3 p-3" style="margin-top: 50px; background-color: #e3f2fd;">
       <h1>보고싶은 영화</h1>
+      <MovieViewCard
+      v-for="movie in movieList"
+      :key="movie.id"
+      :movie="movie"
+    />
       <input
         class="mt-3"
         type="text"
@@ -16,21 +21,16 @@
         add
       </button>
     </div>
-    <div class="m-0">
-      <WatchListItemVue
-        v-for="movie in movieList"
-        :key = movie.id
-        :movie="movie"
-      />
-    </div>
   </div>
 </template>
 
 <script>
 import WatchListItemVue from './WatchListItem.vue';
+import MovieViewCard from '@/views/movie/MovieViewCard'
 export default {
   name: 'WatchList',
   components: {
+    MovieViewCard,
     WatchListItemVue
   },
   data() {
@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     movieList() {
-      return this.$store.state.picked
+      return this.$store.state.like_movies
     }
   },
   methods: {
@@ -50,6 +50,9 @@ export default {
       this.id = this.id+1
       this.inputData=''
     }
+  },
+  created(){
+    this.$store.dispatch("getLikeMovie",this.$store.state.user.id)
   }
 }
 </script>

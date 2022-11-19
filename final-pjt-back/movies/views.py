@@ -99,6 +99,45 @@ def update(request, movie_pk):
             serializer.save()
             return Response(serializer.data)
     
+@api_view(['GET'])
+def like(request, user_pk):
+#     searchWord=request.GET.get('search')
+#     if searchWord:
+    movies=Movie.objects.all()
+    user_movie_list=[]
+    for movie in movies:
+        if movie.like_users.filter(pk=user_pk).exists():
+            user_movie_list.append({'id': movie.pk,
+                'title': movie.title,
+                'popularity':movie.popularity,
+                'release_date': movie.release_date,
+                'vote_count':movie.vote_count,
+                'vote_average': movie.vote_average,
+                'overview':movie.overview,
+                'genres':movie.genres,
+                'poster_path': movie.poster_path,})
+    print(user_movie_list)
+    serializer=MovieSerializer(user_movie_list,many=True)
+    print(serializer.data)
+    return Response(serializer.data)
+    # if request.user.is_authenticated:
+    #     review = get_object_or_404(Review, pk=review_pk)
+    #     user = request.user
+
+    #     if review.like_users.filter(pk=user.pk).exists():
+    #         review.like_users.remove(user)
+    #         is_liked = False
+    #     else:
+    #         review.like_users.add(user)
+    #         is_liked = True
+        
+    #     like_count = review.like_users.count()    
+    #     context = {
+    #         'like_count': like_count,
+    #         'is_liked': is_liked,
+    #     }
+    #     return JsonResponse(context)
+    # return redirect('accounts:login')
 
 @require_safe
 def recommended(request):
