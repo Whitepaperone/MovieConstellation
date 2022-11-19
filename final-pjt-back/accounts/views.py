@@ -13,10 +13,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
-from .serializers import (
-    SignUpSerializer,
-    ProfileSerializer,
-)
+from .serializers import SignUpSerializer, ProfileSerializer
 from rest_framework.permissions import (
     IsAuthenticated,
     AllowAny,
@@ -55,22 +52,31 @@ def profile(request, username):
 
 
 # @require_POST
+@api_view(['POST'])
 def follow(request, user_pk):
     # pass
+    
+    print(user_pk, type(user_pk))
     User = get_user_model()
-    person = get_object_or_404(User, pk=user_pk)
-    user = request.user
-    if person != user:
-        if person.followers.filter(pk=user.pk).exists():
-            person.followers.remove(user)
+    
+    you = get_object_or_404(User, pk=user_pk)
+    print(you.pk)
+    me = request.user
+    print(me.pk)
+    if you != me:
+        if you.followers.filter(pk=me.pk).exists():
+            you.followers.remove(me)
             is_followed = False
         else:
-            person.followers.add(user)
+            you.followers.add(me)
             is_followed = True
         context = {
             'is_followed': is_followed,
-            'followers_count': person.followers.count(),
-            'followings_count': person.followings.count(),
+            'followers_count': you.followers.count(),
+            'followings_count': you.followings.count(),
         }
-        return JsonResponse(context)
-    # return redirect('accounts:profile', person.username)
+        return Response(context)
+    context = {
+        'none': 'equaluser'
+    }
+    return Response(context)

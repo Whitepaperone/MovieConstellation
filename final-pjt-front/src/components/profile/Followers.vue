@@ -1,8 +1,9 @@
 <template>
   <div>
-    <p @click="print">components followers.vue user = {{user}}</p>
+    <!-- <p>{{user.id}}</p> -->
+    <!-- <p @click="print">components followers.vue user = {{userinfo}}</p>
     <p>components followings = {{user.followings.length}}</p>
-    <p>user.id = {{this.user.id}}</p>
+    <p>user.id = {{userinfo.id}}</p> -->
     <button @click="getFollowInfo">getfollowinfo</button>
   </div>
 </template>
@@ -12,37 +13,39 @@ import axios from 'axios'
 
 export default {
   name: 'Followers',
-  // props: {
-  //   user: Object
-  // },
+  props: {
+    usercomp: Object
+  },
   data() {
     return {
-      userinfo : this.user
     }
   },
   computed: {
-    user() {
-      return this.$store.state.user
-    }
+    
   },
   methods: {
     print() {
       console.log(this.user)
     }, 
-    // getFollowInfo() {
-    //   const API_URL = 'http://127.0.0.1:8000'
-
-    //   axios({
-    //     method: 'get',
-    //     url : `${API_URL}/${this.userinfo.id}/follow`,
-    //   })
-    //   .then((response) => {
-    //     console.log(response.data)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
-    // },
+    getFollowInfo() {
+      const API_URL = 'http://127.0.0.1:8000'
+      const ID = this.usercomp?.id
+      console.log(ID)
+      console.log(typeof(ID))
+      axios({
+        method: 'post',
+        url : `${API_URL}/accounts/${ID}/follow/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error.response.data)
+      })
+    },
 
   }
 

@@ -6,14 +6,19 @@ import RandomView from '../views/movie/RandomView.vue'
 import WatchList from '../views/movie/WatchList.vue'
 import SearchMovieView from '@/views/movie/SearchMovieView'
 import MovieViewCardDetail from '@/views/movie/MovieViewCardDetail'
+
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import Logout from '@/views/accounts/Logout'
 import Profile from '@/views/accounts/Profile'
 
+import PlayListView from '@/views/community/PlayListView'
+import CreatePlayListView from '@/views/community/CreatePlayListView'
+
 Vue.use(VueRouter)
 
 const routes = [
+  // MOVIE
   {
     path: '/',
     name: 'movieview',
@@ -43,6 +48,8 @@ const routes = [
   {
     path:'/'
   },
+
+  // ACCOUNTS
   {
     path: '/accounts/signup',
     name: 'Signup',
@@ -62,6 +69,18 @@ const routes = [
     path: '/accounts/profile/:username',
     name: 'Profile',
     component: Profile,
+  },
+
+  // COMMUNITY
+  {
+    path: '/community/',
+    name: 'PlayListView',
+    component: PlayListView,
+  },
+  {
+    path: '/community/create',
+    name: 'CreatePlayList',
+    component: CreatePlayListView,
   },
 ]
 

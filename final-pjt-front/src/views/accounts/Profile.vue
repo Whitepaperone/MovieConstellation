@@ -4,7 +4,7 @@
         <p>profile.vue user = {{user}}</p>
         <div>
             <FollowersVue
-                :user="user"
+                :usercomp="user"
             />
         </div>
     </div>

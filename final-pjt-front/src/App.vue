@@ -72,6 +72,14 @@
                 </router-link>
               </li>
 
+              <li
+                v-if="isLogIn" 
+                class="nav-item me-5 dropdown">
+                <router-link :to="{ name : 'PlayListView' }">
+                  PlayList
+                </router-link>
+              </li>
+
             </ul>
           </div>        
         </div>
