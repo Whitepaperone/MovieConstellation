@@ -5,12 +5,12 @@
     <p>components followings = {{user.followings.length}}</p>
     <p>user.id = {{userinfo.id}}</p> -->
     <button @click="getFollowInfo">getfollowinfo</button>
-    <FollowList
+    <FollowListItem
       v-for="follow in followings"
       :key="follow.username"
       :follow="follow"
     />
-    <FollowList
+    <FollowListItem
       v-for="follow in followers"
       :key="follow.username"
       :follow="follow"
@@ -20,7 +20,7 @@
 
 <script>
 import axios from 'axios'
-import FollowList from '@/components/profile/FollowList'
+import FollowListItem from '@/components/profile/FollowListItem'
 
 export default {
   name: 'Followers',
@@ -28,7 +28,7 @@ export default {
     usercomp: Object
   },
   components:{
-    FollowList,
+    FollowListItem,
   },
   data() {
     return {

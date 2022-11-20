@@ -40,6 +40,7 @@ data(){
         followObj: null,
         followings: null,
         followers:null,
+        user:null,
     }
 },
 computed:{
