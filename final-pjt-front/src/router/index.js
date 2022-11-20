@@ -16,6 +16,7 @@ import Profile from '@/views/accounts/Profile'
 import PlayListView from '@/views/community/PlayListView'
 import CreatePlayListView from '@/views/community/CreatePlayListView'
 import PlayListDetailView from '@/views/community/PlayListDetailView'
+import UpdatePlayListView from '@/views/community/UpdatePlayListView'
 
 Vue.use(VueRouter)
 
@@ -91,10 +92,17 @@ const routes = [
     component: CreatePlayListView,
   },
   {
-    path: '/community/:id',
+    path: '/community/detail/:id',
     name: 'PlayListDetailView',
     component: PlayListDetailView,
   },
+  {
+    path: '/community/update/:id',
+    name: 'UpdatePlayListView',
+    component: UpdatePlayListView,
+  },
+  
+  
 ]
 
 const router = new VueRouter({

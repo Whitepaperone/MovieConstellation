@@ -4,7 +4,14 @@
     <h3>{{playlist?.title}}</h3>
     <p>{{playlist?.content}}</p>
     <button @click="deletePlaylist">[delete]</button>
-    <router-link>updatePlaylist</router-link>
+    <router-link 
+      :to="{
+        name : 'UpdatePlayListView',
+        params: {id:playlist.id},
+        }"
+    >
+      updatePlaylist
+    </router-link>
   </div>
 </template>
 
@@ -21,7 +28,6 @@ export default {
     }
   },
   methods: {
-    
     getPlaylistDetail() {
         axios({
             method: 'get',
