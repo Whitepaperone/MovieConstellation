@@ -72,14 +72,14 @@
                 </router-link>
               </li>
 
-              <li
+               <li
                 v-if="isLogIn" 
                 class="nav-item me-5 dropdown">
                 <router-link :to="{ name : 'PlayListView' }">
                   PlayList
                 </router-link>
               </li>
-
+              
             </ul>
           </div>        
         </div>
@@ -88,6 +88,9 @@
     </nav>
     <div>
       <router-link :to="{ name: 'randomview' }">[BLACKHOLE]</router-link>
+    </div>
+    <div>
+      <router-link :to="{ name: 'combinationMovie' }">[Another Movie]</router-link>
     </div>
     <router-view
       @login="logIn"
@@ -144,7 +147,6 @@ export default {
   },
   created() {
     this.$store.dispatch("getMovie")
-    this.$store.dispatch("getLikeMovie",this.$store.state.user.id)
     this.checkJWT()
     this.updateUserInfo()
   },

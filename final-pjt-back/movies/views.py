@@ -6,8 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Movie, Genre
 from .serializers import MovieSerializer
-
-from django.http import HttpResponse
+import json
 
 from django.views.generic import FormView
 from .forms import PostSearchForm
@@ -50,18 +49,18 @@ def search_movie(request):
     return JsonResponse(response)
 
 
-class SearchFormView(FormView): 
-    form_class = PostSearchForm 
-    template_name = 'movies/post_search.html' 
-    def form_valid(self, form): 
-        searchWord = form.cleaned_data['search_word']
-        post_list = Movie.objects.filter(Q(title__icontains=searchWord) | Q(overview__icontains=searchWord) | Q(genres__name__icontains=searchWord)).distinct()
-        context = {} 
-        context['form'] = form 
-        context['search_term'] = searchWord 
-        context['object_list'] = post_list 
+# class SearchFormView(FormView): 
+#     form_class = PostSearchForm 
+#     template_name = 'movies/post_search.html' 
+#     def form_valid(self, form): 
+#         searchWord = form.cleaned_data['search_word']
+#         post_list = Movie.objects.filter(Q(title__icontains=searchWord) | Q(overview__icontains=searchWord) | Q(genres__name__icontains=searchWord)).distinct()
+#         context = {} 
+#         context['form'] = form 
+#         context['search_term'] = searchWord 
+#         context['object_list'] = post_list 
         
-        return  render(self.request, self.template_name, context) # No Redirection
+#         return  render(self.request, self.template_name, context) # No Redirection
 
 
 
@@ -153,45 +152,81 @@ def recommend_with_genre(request, user_pk):
     serializer=MovieSerializer(recommend_movie,many=True)
     return Response(serializer.data)
 
-@require_safe
-def recommended(request):
-    movies = Movie.objects.order_by('vote_average')
-    genres = Genre.objects.order_by('name')
-    context = {
-        "movies": movies,
-        "genres": genres,
+@api_view(['GET'])
+def combinatnion(request, user_pk,another_user_pk):
+    a_like_movies=like_movie(user_pk)
+    b_like_movies=like_movie(another_user_pk)
+    intersection=[]
+    a_complement=a_like_movies[:]
+    b_complement=b_like_movies[:]
+    for i in a_like_movies:
+        for j in b_like_movies:
+            if i['id']==j['id']: 
+                intersection.append(i)
+    for i in intersection:
+        print(i['id'])
+    for i in a_like_movies:
+        for j in intersection:
+            if i['id']==j['id']:
+                a_complement.remove(i)
+    for i in b_like_movies:
+        for j in intersection:
+            if i['id']==j['id']:
+                b_complement.remove(i)
+    for i in a_complement:
+        print('a',i['id'])
+    for i in b_complement:
+        print('b',i['id'])    
+    intersection_serializer=MovieSerializer(intersection,many=True)
+    a_complement_serializer=MovieSerializer(a_complement,many=True)
+    b_complement_serializer=MovieSerializer(b_complement,many=True)
+    context={
+        'intersection': intersection_serializer.data,
+        'a_complement':a_complement_serializer.data,
+        'b_complement':b_complement_serializer.data
     }
-    return render(request, "movies/recommended.html", context)
+    return JsonResponse(context)
+    pass
+
+# @require_safe
+# def recommended(request):
+#     movies = Movie.objects.order_by('vote_average')
+#     genres = Genre.objects.order_by('name')
+#     context = {
+#         "movies": movies,
+#         "genres": genres,
+#     }
+#     return render(request, "movies/recommended.html", context)
 
 
-def recommendeddata(request):
-    genre_pk = int(request.GET.get('genre'))
-    year = request.GET.get('year')
+# def recommendeddata(request):
+#     genre_pk = int(request.GET.get('genre'))
+#     year = request.GET.get('year')
        
-    if year == '1990년대':
-        movies = Movie.objects.filter(release_date__startswith='199')
-    elif year == '2000년대':
-        movies = Movie.objects.filter(release_date__startswith='200')
-    elif year == '2010년대':
-        movies = Movie.objects.filter(release_date__startswith='201')
-    elif year == '2020년대':
-        movies = Movie.objects.filter(release_date__startswith='20')
-    else:
-        movies = Movie.objects.filter(release_date__startswith='19')
+#     if year == '1990년대':
+#         movies = Movie.objects.filter(release_date__startswith='199')
+#     elif year == '2000년대':
+#         movies = Movie.objects.filter(release_date__startswith='200')
+#     elif year == '2010년대':
+#         movies = Movie.objects.filter(release_date__startswith='201')
+#     elif year == '2020년대':
+#         movies = Movie.objects.filter(release_date__startswith='20')
+#     else:
+#         movies = Movie.objects.filter(release_date__startswith='19')
     
-    movies_list = []
-    for movie in movies:
-        for genre in movie.genres.all():
-            if genre_pk == genre.pk:
-                movies_list.append({
-                    'pk': movie.pk,
-                    'title': movie.title,
-                    'release_date': movie.release_date,
-                    'vote_average': movie.vote_average,
-                    'poster_path': movie.poster_path,
-                })
+#     movies_list = []
+#     for movie in movies:
+#         for genre in movie.genres.all():
+#             if genre_pk == genre.pk:
+#                 movies_list.append({
+#                     'pk': movie.pk,
+#                     'title': movie.title,
+#                     'release_date': movie.release_date,
+#                     'vote_average': movie.vote_average,
+#                     'poster_path': movie.poster_path,
+#                 })
         
-    response = {
-        'moviesList': movies_list,
-    }
-    return JsonResponse(response)
+#     response = {
+#         'moviesList': movies_list,
+#     }
+#     return JsonResponse(response)
