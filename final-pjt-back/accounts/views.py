@@ -48,35 +48,48 @@ def profile(request, username):
     User = get_user_model()
     person = get_object_or_404(User, username=username)
     serializer = ProfileSerializer(person)
+    
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # @require_POST
-@api_view(['POST'])
+@api_view(['GET','POST'])
 def follow(request, user_pk):
     # pass
-    
-    print(user_pk, type(user_pk))
     User = get_user_model()
-    
     you = get_object_or_404(User, pk=user_pk)
-    print(you.pk)
     me = request.user
-    print(me.pk)
-    if you != me:
+    if request.method=='POST':
+        if you != me:
+            if you.followers.filter(pk=me.pk).exists():
+                print('unfollow')
+                you.followers.remove(me)
+                is_followed = False
+            else:
+                print('follow')
+                you.followers.add(me)
+                is_followed = True            
+    else:
         if you.followers.filter(pk=me.pk).exists():
-            you.followers.remove(me)
-            is_followed = False
+                is_followed = True
         else:
-            you.followers.add(me)
-            is_followed = True
-        context = {
-            'is_followed': is_followed,
-            'followers_count': you.followers.count(),
-            'followings_count': you.followings.count(),
-        }
-        return Response(context)
+            is_followed = False
+            
+    follower_list=[]
+    for i in you.followers.all():
+        follower_list.append(i)
+    follower=ProfileSerializer(follower_list,many=True)
+    
+    following_list=[]
+    print()
+    for i in you.followings.all():
+        following_list.append(i)
+    following=ProfileSerializer(following_list,many=True)
     context = {
-        'none': 'equaluser'
+        'followings':following.data,
+        'followers':follower.data,
+        'is_followed': is_followed,
+        'followers_count': you.followers.count(),
+        'followings_count': you.followings.count(),
     }
     return Response(context)

@@ -156,30 +156,30 @@ def recommend_with_genre(request, user_pk):
 def combinatnion(request, user_pk,another_user_pk):
     a_like_movies=like_movie(user_pk)
     b_like_movies=like_movie(another_user_pk)
+
     intersection=[]
     a_complement=a_like_movies[:]
     b_complement=b_like_movies[:]
+
     for i in a_like_movies:
         for j in b_like_movies:
             if i['id']==j['id']: 
                 intersection.append(i)
-    for i in intersection:
-        print(i['id'])
+
     for i in a_like_movies:
         for j in intersection:
             if i['id']==j['id']:
                 a_complement.remove(i)
+
     for i in b_like_movies:
         for j in intersection:
             if i['id']==j['id']:
                 b_complement.remove(i)
-    for i in a_complement:
-        print('a',i['id'])
-    for i in b_complement:
-        print('b',i['id'])    
+                
     intersection_serializer=MovieSerializer(intersection,many=True)
     a_complement_serializer=MovieSerializer(a_complement,many=True)
     b_complement_serializer=MovieSerializer(b_complement,many=True)
+
     context={
         'intersection': intersection_serializer.data,
         'a_complement':a_complement_serializer.data,
