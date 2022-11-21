@@ -72,49 +72,54 @@
 ## 11/18 (금)
 
 - 회의:
+  
   - Playlist DB Schema 구성
   - 업무 분담
   - 
+
 - 목표:
+  
   - Playlist Modeling
   - DetailView.vue 구현
   - RandomView.vue 구현
   - Follower/Following views.py 구현
   - Follower/Following data 받기
+
 - 완료:
+  
   - Playlist Modeling
   - RandomView.vue 구현
   - Follower/Following views.py 구현
   - Follower/Following data 받기(0.5)
 
 - 발생한 문제점:
+  
   - DetailView props 전달이 되지 않음
   - JSONResponse를 통한 데이터 전달 시, axios오류 발생
-  
+
 - 수정여부:
 
-## 11/19 (토)
-
-- 회의:
-- 목표:
-- 완료:
-- 발생한 문제점:
-- 수정여부:
-
-## 11/20 (일)
-
-- 회의:
-- 목표:
-- 완료:
-- 발생한 문제점:
-- 수정여부:
+## 
 
 ## 11/21 (월)
 
 - 회의:
-- 목표:
+- 목표: 기능 완료 CSS 돌입
 - 완료:
+  - Accounts 기능
+    - Profile follow기능 구현
+      - follower, following  유저 목록, 유저 수, 버튼 비동기 반응
+      - 팔로워의 좋아요한 영화 목록 기능 구현
+      - 타 유저와 겹치는 영화 목록 기능 구현
+  - Community 기능
+    - Playlist의 List Create, Read, Update, Delete 기능 구현
+    - Playlist model에 Movie와 M:N 관계 구축
+  - Movies 기능
+    - Search 기능 구현
+    - 추천 알고리즘 구현
+    - 영화 좋아요 기능, 좋아요 목록 구성 기능 구현
 - 발생한 문제점:
+  - Playlist Create, Update에서 영화 검색해서 추가하는 기능에 문제
 - 수정여부:
 
 ## 11/22 (화)
