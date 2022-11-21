@@ -30,7 +30,7 @@
           return {
               title: null,
               content: null,
-              movies: [],
+              movies: [1,2,3],
           }
       },
       methods: {
