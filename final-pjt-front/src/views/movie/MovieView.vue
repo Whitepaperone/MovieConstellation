@@ -5,16 +5,20 @@
       :key="movie.id"
       :movie="movie"
     />
+    <br><hr>
+    <MovieNowPlaying/>
   </div>
 </template>
 
 <script>
 import MovieViewCard from '@/views/movie/MovieViewCard'
+import MovieNowPlaying from '@/views/movie/MovieNowPlaying'
 
 export default {
   name: 'MovieView',
   components: {
     MovieViewCard,
+    MovieNowPlaying,
   },
   computed: {
     movies() {

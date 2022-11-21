@@ -1,7 +1,7 @@
 <template>
   <div class="mx-5">
     <div class="card" style="width: 20rem;">
-      <img :src="poster_path" class="card-img-top" alt="" style="width:17rem; height:25rem; margin-left:22px;">
+      <img :src="imgSrc" v-if="imgSrc" class="card-img-top" alt="" style="width:17rem; height:25rem; margin-left:22px;"></img>
       <div class="card-body">
         <h5 class="card-title"><b>{{ title }}</b></h5>
         <p class="card-text">{{ overview }}</p>
@@ -26,7 +26,13 @@ export default {
       poster_path:this.movie.poster_path,
       movies: this.movie
     }
+  },
+  computed:{
+    imgSrc(){
+      return "https://image.tmdb.org/t/p/w500"+this.movie.poster_path
+    }
   }
+
 }
 </script>
 
