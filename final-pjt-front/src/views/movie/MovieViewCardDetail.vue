@@ -46,6 +46,7 @@ computed:{
       const isConsistent=this.movie.like_users.some((user)=>{return user===this.$store.state.user.id})
       if (isConsistent){
         const newUsers=this.movie.like_users.filter((user)=>{return user!==this.$store.state.user.id})
+
         axios({
                 method: 'put',
                 url: `http://127.0.0.1:8000/movies/${this.movie.id}/update/`,
@@ -56,19 +57,21 @@ computed:{
                   popularity:this.movie.popularity,
                   vote_count:this.movie.vote_count,
                   vote_average:this.movie.vote_average,
-                  overview:this.movie.overview,
                   poster_path:this.movie.poster_path,
                   genres:this.movie.genres,
                   like_users: newUsers
                   }
               })
               .then((res)=>{
+                this.getMovie()
+                console.log('unlike',newUsers)
                 console.log(res)
               })
               .catch((err)=>console.log(err))
       }
       else{
         this.movie.like_users.push(this.$store.state.user.id)
+        console.log('-------------',this.movie.like_users)
         axios({
                 method: 'put',
                 url: `http://127.0.0.1:8000/movies/${this.movie.id}/update/`,
@@ -79,15 +82,15 @@ computed:{
                   popularity:this.movie.popularity,
                   vote_count:this.movie.vote_count,
                   vote_average:this.movie.vote_average,
-                  overview:this.movie.overview,
                   poster_path:this.movie.poster_path,
                   genres:this.movie.genres,
-
                   like_users: this.movie.like_users
                   }
               })
               .then((res)=>{
+                console.log('like==========',this.movie.like_users)
                 console.log(res)
+                this.getMovie()
               })
               .catch((err)=>console.log(err))
       }

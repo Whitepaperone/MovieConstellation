@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Movie, Genre
-from .serializers import MovieSerializer
+from .serializers import MovieSerializer,LikeMovieSerializer
 import json
 
 from django.views.generic import FormView
@@ -94,10 +94,9 @@ def detail(request,movie_pk):
 def update(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'PUT':
-        serializer = MovieSerializer(movie, data=request.data)
-        print(serializer,movie_pk)
+        serializer = LikeMovieSerializer(movie,data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(like_users=request.data['like_users'])
             return Response(serializer.data)
 
 

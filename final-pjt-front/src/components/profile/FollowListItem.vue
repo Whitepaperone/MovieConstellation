@@ -18,7 +18,7 @@ name: 'MovieViewCard',
     return {
       username: this.follows.username,
     }
-  }
+  },
 }
 </script>
 
