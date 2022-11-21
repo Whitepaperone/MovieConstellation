@@ -1,18 +1,18 @@
 <template>
   <div>
-    {{playlist}}
+    {{context.playlist}}
     <form @submit.prevent="updatePlaylist">
           <label for="title">제목 : </label>
           <input
               type="text"
               id="title"
-              v-model="playlist.title"
+              v-model="context.playlist.title"
           ><br>
           <label for="content">내용 :</label>
           <textarea
               id="content"
               cols="30" rows="10"
-              v-model="playlist.content"
+              v-model="context.playlist.content"
           >
           </textarea><br>
           <input type="submit" id="submit">
@@ -29,7 +29,7 @@ export default {
     name: 'UpdatePlayListView',
     data() {
         return {
-            playlist: null,
+            context: null,
         }
     },
     methods: {
@@ -42,26 +42,27 @@ export default {
                 }
             })
             .then((res) => {
-                this.playlist=res.data
+                console.log(res.data)
+                this.context=res.data
             })
             .catch(err => console.log(err.data))
         },
         updatePlaylist() {
-            const title = this.playlist.title
-            const content = this.playlist.content
-  
+            const title = this.context.playlist.title
+            const content = this.context.playlist.content
+            const movies = this.context.playlist.movies
             if (title && content) {
                 axios({
                     method: 'put',
                     url: `${API_URL}/community/${this.$route.params.id}/`,
-                    data: {title, content},
+                    data: {title, content, movies},
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('jwt')}`
                     }
                 })
                 .then((res) => {
                     console.log(res)
-                    this.$router.push({name: 'PlayListDetailView', id: this.playlist.id})
+                    this.$router.push({name: 'PlayListDetailView', id: this.context.playlist.id})
                 })
                 .catch((err) => {
                     console.log(err)

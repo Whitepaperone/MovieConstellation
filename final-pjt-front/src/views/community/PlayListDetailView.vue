@@ -1,13 +1,13 @@
 <template>
   <div>
-    {{playlist}}
-    <h3>{{playlist?.title}}</h3>
-    <p>{{playlist?.content}}</p>
+    {{context.playlist}}
+    <h3>{{context.playlist?.title}}</h3>
+    <p>{{context.playlist?.content}}</p>
     <button @click="deletePlaylist">[delete]</button>
     <router-link 
       :to="{
         name : 'UpdatePlayListView',
-        params: {id:playlist.id},
+        params: {id:context.playlist.id},
         }"
     >
       updatePlaylist
@@ -24,7 +24,7 @@ export default {
   name: 'PlayListDetailView',
   data() {
     return {
-        playlist: null,
+        context: null,
     }
   },
   methods: {
@@ -37,7 +37,8 @@ export default {
             }
         })
         .then((res) => {
-            this.playlist=res.data
+          console.log(res)
+          this.context=res.data
         })
         .catch(err => console.log(err))
     },
