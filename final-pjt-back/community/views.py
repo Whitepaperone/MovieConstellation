@@ -41,7 +41,6 @@ def playlist_list(request):
             for movie_id in data['movies']:
                 movie = Movie.objects.get(pk=movie_id)
                 playlist.movies.add(movie)
-                # serializer.save(movies=data['movies'])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
@@ -51,15 +50,13 @@ def playlist_detail(request, playlist_pk):
     
     if request.method == 'GET':
         serializer = PlayListSerializer(playlist)
-        movies = Movie.objects.all()
-        print(movies)
-        print('################################################')
-        print(playlist.movies)
-        movies_list = []
-        for movie in movies:
-            if movie.movies_playlists.playlist_id == playlist_pk:
-                movies_list.append(movie)
-        print(movies_list)
+        movies = playlist.movies.all()
+        movie_serializer = MovieSerializer(movies, many=True)
+        context = {
+            'playlist' : serializer.data,
+            'movies' : movie_serializer.data
+        }
+        return Response(context)
         
         # temp = .movies_playlists.filter(pk=playlist.pk)
         # print(temp)
@@ -71,9 +68,20 @@ def playlist_detail(request, playlist_pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     elif request.method == 'PUT':
-        serializer = PlayListSerializer(playlist, data=request.data)
+        data = request.data
+        serializer = CreatePlayListSerializer(playlist, data=data)
+
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            playlist_serializer = serializer.save()
+            origin_movies = playlist.movies.all()
+            for origin_movie in origin_movies:
+                pp = (origin_movie.pk)
+                for _ in playlist_serializer.movies.filter():
+                    playlist.movies.remove(pp)
+            
+            for movie_id in data['movies']:
+                movie = Movie.objects.get(pk=movie_id)
+                playlist.movies.add(movie)
             return Response(serializer.data)
 
 
