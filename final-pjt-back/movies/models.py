@@ -16,8 +16,8 @@ class Movie(models.Model):
     # 영화 좋아요
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies', null=True)
     
-class Playlist(models.Model):
-    title=models.CharField(max_length=50)
-    movies= models.ManyToManyField(Movie)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+# class Playlist(models.Model):
+#     title=models.CharField(max_length=50)
+#     movies= models.ManyToManyField(Movie)
+#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
