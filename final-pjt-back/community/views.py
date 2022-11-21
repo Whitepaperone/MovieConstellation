@@ -50,33 +50,12 @@ def playlist_detail(request, playlist_pk):
     
     if request.method == 'GET':
         serializer = PlayListSerializer(playlist)
-<<<<<<< HEAD
-        movies = Movie.objects.all()
-        print(serializer.data)
-        print(serializer.data['movies'])
-        print('################################################')
-        movies_list = []
-        for movie in movies:
-            for i in serializer.data['movies']:
-                if movie.id==i:
-                    movies_list.append(movie)
-        context={
-            'detail':serializer.data,
-            'movies':MovieSerializer(movies_list,many=True).data
-        }
-=======
         movies = playlist.movies.all()
         movie_serializer = MovieSerializer(movies, many=True)
         context = {
             'playlist' : serializer.data,
             'movies' : movie_serializer.data
         }
-        return Response(context)
->>>>>>> b03669722e3128a86e02f592b96223e45777c58a
-        
-        # temp = .movies_playlists.filter(pk=playlist.pk)
-        # print(temp)
-        # for movie in playlist.movies_playlists.filter(pk=)
         return Response(context)
     
     elif request.method == 'DELETE':
