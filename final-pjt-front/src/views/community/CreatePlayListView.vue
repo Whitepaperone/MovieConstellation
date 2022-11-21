@@ -30,18 +30,20 @@
           return {
               title: null,
               content: null,
+              movies: [],
           }
       },
       methods: {
           createPlaylist() {
               const title = this.title
               const content = this.content
+              const movies = this.movies
   
               if (title && content) {
                   axios({
                       method: 'post',
                       url:`${API_URL}/community/`,
-                      data: {title, content},
+                      data: {title, content, movies},
                       headers: {
                           Authorization: `Bearer ${localStorage.getItem('jwt')}`
                       }

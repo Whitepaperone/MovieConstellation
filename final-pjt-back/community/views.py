@@ -12,8 +12,13 @@ from rest_framework.permissions import (
     IsAuthenticated,
     AllowAny,
     )
+from movies.models import Movie
 from .models import Playlist
-from .serializers import PlayListListSerializer, PlayListSerializer
+from movies.serializers import MovieSerializer
+from .serializers import (
+    PlayListSerializer,
+    CreatePlayListSerializer
+)
 
 
 @api_view(['GET', 'POST'])
@@ -22,25 +27,43 @@ def playlist_list(request):
         playlists = Playlist.objects.all()
         my_playlist = []
         for playlist in playlists:
-            print(playlist)
             if playlist.user_id==request.user.id:
                 my_playlist.append(playlist)
-        serializer =PlayListListSerializer(my_playlist, many=True)
+        serializer =PlayListSerializer(my_playlist, many=True)
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        serializer = PlayListSerializer(data=request.data)
+        data = request.data
+        print(data)
+        serializer = CreatePlayListSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
+            playlist = serializer.save(user=request.user)
+            for movie_id in data['movies']:
+                movie = Movie.objects.get(pk=movie_id)
+                playlist.movies.add(movie)
+                # serializer.save(movies=data['movies'])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
 @api_view(['GET', 'DELETE', 'PUT'])
 def playlist_detail(request, playlist_pk):
     playlist = get_object_or_404(Playlist, pk=playlist_pk)
-
+    
     if request.method == 'GET':
         serializer = PlayListSerializer(playlist)
+        movies = Movie.objects.all()
+        print(movies)
+        print('################################################')
+        print(playlist.movies)
+        movies_list = []
+        for movie in movies:
+            if movie.movies_playlists.playlist_id == playlist_pk:
+                movies_list.append(movie)
+        print(movies_list)
+        
+        # temp = .movies_playlists.filter(pk=playlist.pk)
+        # print(temp)
+        # for movie in playlist.movies_playlists.filter(pk=)
         return Response(serializer.data)
     
     elif request.method == 'DELETE':

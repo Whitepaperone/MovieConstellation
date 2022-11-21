@@ -27,18 +27,18 @@ def signup(request):
     #     return Response(todoserializer.data)
     
     if request.method == 'POST':
-        serializer = SignUpSerializer(data=request.data)
-        password = serializer.initial_data.get('password')
-
-        if serializer.is_valid(raise_exception=True):
-            if serializer.validated_data.get('password') == serializer.validated_data.get('password_check'):
+        data = request.data
+        if data['password'] == data['password_check']:
+            serializer = SignUpSerializer(data=data)
+            password = serializer.initial_data.get('password')
+            if serializer.is_valid(raise_exception=True):
                 user = serializer.save()
                 user.set_password(password)
                 user.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 
 # 로그인 필요
