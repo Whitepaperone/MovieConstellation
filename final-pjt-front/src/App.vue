@@ -1,104 +1,108 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
-      <div class="container-fluid">
-        <div>
-          <img src="./assets/ssasfy.png" alt="numbnut" style="width:50px; height:50px;" >
-        </div>
-        <div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarScroll">
-            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-              
-              <li class="nav-item me-5 ">
-                <router-link :to="{name: 'movieview'}">
-                  Movie
-                </router-link> 
-              </li>
-
-              <li class="nav-item me-5">
-                <router-link :to="{name: 'randomview'}">
-                  Random
-                </router-link>
-              </li>
-
-              <li class="nav-item me-5 dropdown">
-                <router-link :to="{name : 'watchlist'}">
-                  WatchList
-                </router-link>
-              </li>
-              <li class="nav-item me-5 dropdown">
-                <router-link :to="{name : 'searchmovie'}">
-                  Search
-                </router-link>
-              </li>
-
-              <li 
-                v-if="!isLogIn" 
-                class="nav-item me-5 dropdown">
-                <router-link :to="{name : 'Login'}">
-                  Login
-                </router-link>
-              </li>
-
-              <li 
-                v-if="!isLogIn"
-                class="nav-item me-5 dropdown">
-                <router-link :to="{name : 'Signup'}">
-                  Signup
-                </router-link>
-              </li>
-
-              <li
-                v-if="isLogIn" 
-                class="nav-item me-5 dropdown">
+    <b-navbar type="dark" variant="dark" fill="true" class="d-flex justify-content-between">
+      <b-navbar-brand href="http://localhost:8080/">
+        <img src="./assets/ssasfy.png" alt="logo" style="width:50px; height:50px;" >
+      </b-navbar-brand>
+      <div>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right text="Movie">
+              <div class="m-0">
                 <router-link
-                  :to="{ 
-                    name : 'Profile',
-                    params : { username:username },  
-                  }"
+                  :to="{name: 'movieview'}"
+                  tag="b-dropdown-item"
+                  class="router-link"
+                  
                 >
-                  Profile
+                <b>All</b>
                 </router-link>
-              </li>
+              </div>
+              <!-- <router-link
+                :to="{name: 'randomview'}"
+                tag="b-dropdown-item"
+                class="router-link"
+              >
+                <b>Ramdom</b>
+              </router-link> -->
+              <router-link
+                :to="{name : 'searchmovie'}"
+                tag="b-dropdown-item"
+                class="router-link"
+              >
+                <b>Search</b>
+              </router-link>
+            </b-nav-item-dropdown>
+            
 
-              <li
-                v-if="isLogIn" 
-                class="nav-item me-5 dropdown">
-                <router-link :to="{ name : 'Logout' }">
-                  Logout
-                </router-link>
-              </li>
-
-               <li
-                v-if="isLogIn" 
-                class="nav-item me-5 dropdown">
-                <router-link :to="{ name : 'PlayListView' }">
-                  PlayList
-                </router-link>
-              </li>
-              
-            </ul>
-          </div>        
-        </div>
+            <b-nav-item-dropdown right text="User" class="me-5">
+              <router-link
+                v-if="!isLogIn"
+                :to="{name : 'Login'}"
+                tag="b-dropdown-item"
+                class="router-link"
+              >
+                <b>Login</b>
+              </router-link>
+              <router-link
+                v-if="!isLogIn"
+                :to="{name : 'Signup'}"
+                tag="b-dropdown-item"
+                class="router-link"
+              >
+                <b>Signup</b>
+              </router-link>
+              <router-link
+                v-if="isLogIn"
+                :to="{ 
+                  name : 'Profile',
+                  params : { username:username },  
+                }"
+                tag="b-dropdown-item"
+                class="router-link"
+              >
+                <b>Profile</b>
+              </router-link>
+              <router-link
+                v-if="isLogIn"
+                :to="{ name : 'Logout' }"
+                tag="b-dropdown-item"
+                class="router-link"
+              >
+                <b>Logout</b>
+              </router-link>
+              <router-link
+                v-if="isLogIn"
+                :to="{ name : 'PlayListView' }"
+                tag="b-dropdown-item"
+                class="router-link"
+              >
+                <b>PlayList</b>
+              </router-link>
+              <router-link
+                v-if="isLogIn"
+                :to="{name : 'watchlist'}"
+                tag="b-dropdown-item"
+                class="router-link"
+              >
+                Liked
+              </router-link>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-collapse>
       </div>
-      
-    </nav>
+    </b-navbar>
     <div>
       <router-link :to="{ name: 'randomview' }">[BLACKHOLE]</router-link>
     </div>
-    <div>
+    <!-- <div>
       <router-link :to="{ name: 'combinationMovie' }">[Another Movie]</router-link>
-    </div>
+    </div> -->
     <router-view
       @login="logIn"
       @logout="logOut"
       :user="user"
     />
-    <p>state.user = {{this.$store.state.user}}</p>
-    <p>computed.user = {{user}}</p>
   </div>
 </template>
 
@@ -151,6 +155,12 @@ export default {
     this.updateUserInfo()
   },
 }
+document.body.addEventListener("pointermove", (e)=>{
+  const { currentTarget: el, clientX: x, clientY: y } = e;
+  const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
+  el.style.setProperty('--posX',  x-l-w/2);
+  el.style.setProperty('--posY',  y-t-h/2);
+})
 </script>
 
 <style>
@@ -172,9 +182,35 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #ae1717;
 }
+body{
+  height:100vh;
+  width: 100vw;
+  margin: 0;
+  --x: calc(var(--posX, 0) * 1px);
+  --y: calc(var(--posY, 0) * 1px);
+  background-image: 
+    linear-gradient(115deg, rgb(211 255 215), rgb(0 0 0)), 
+    radial-gradient( 90% 100% at calc( 50% + var(--x)) calc( 0% + var(--y)), rgb(200 200 200), rgb(022 000 045)), 
+    radial-gradient(100% 100% at calc( 50% + var(--x)) calc( 0% + var(--y)), rgb(254, 255, 198), rgb(036 000 000)), 
+    linear-gradient(15deg, rgb(87, 87, 87), rgb(110, 0, 133)),
+    radial-gradient(150% 210% at calc(100% + var(--x)) calc( 0% + var(--y)), rgb(148, 216, 195), rgb(0, 3, 90)), 
+    radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), rgb(141, 42, 0), rgb(163, 207, 219)), 
+    linear-gradient(60deg, rgb(248, 166, 166), rgb(120 086 255));
+  background-blend-mode: overlay, overlay, difference, difference, difference, difference, normal;
 
+  background-repeat: no-repeat;
+    background-attachment: fixed;
+}
 
 </style>
 
+<style scoped>
+.router-link {
+  width: 76%;
+}
+b {
+  color: #0f0f2a;
+}
+</style>

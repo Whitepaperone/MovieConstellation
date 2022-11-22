@@ -54,6 +54,7 @@ export default {
         
         this.$emit('login', this.username)
         this.$router.push({name: 'movieview'})
+        location.reload()
       })
       .catch((err) => {
         console.log(err)

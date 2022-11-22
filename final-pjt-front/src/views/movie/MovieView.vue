@@ -1,7 +1,6 @@
 <template>
   <div class="row row-cols-1 row-cols-md-4 g-4" style="margin-left:150px">
     <div>
-      <button v-on:click="show=!show">변경하기</button>
       <transition-group
       ref="main" class="main">
          <MovieViewCard
