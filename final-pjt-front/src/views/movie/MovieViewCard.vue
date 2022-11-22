@@ -1,8 +1,8 @@
 <template>
-  <div class="mx-5">
-    <div @click="selectMovie" class="card" style="width: 20rem;">
-      <img :src="imgSrc" v-if="imgSrc" class="card-img-top" alt="" style="width:17rem; height:25rem; margin-left:22px;">
-      <div class="card-body" :class="{'is-selectd' : this.isSelected }" >
+  <div class="card d-flex" style="margin:10px" >
+    <div @click="selectMovie"  :class="{'is-selectd' : this.isSelected }" style="width: 20rem; ">
+      <img :src="imgSrc" v-if="imgSrc" class="card-img-top" alt="" style="width:17rem; height:25rem; margin:1rem;">
+      <div class="card-body"  >
         <h5 class="card-title"><b>{{ title }}</b></h5>
         <p class="card-text">{{ overview }}</p>
         <router-link :to="{ name : 'detailmovie', params: { movieId: movies.id} }">[Detail]</router-link>
@@ -55,5 +55,8 @@ export default {
 <style>
 .is-selected {
     background-color: aqua;
+  }
+  .card-body{
+    opacity: 0.5;
   }
 </style>

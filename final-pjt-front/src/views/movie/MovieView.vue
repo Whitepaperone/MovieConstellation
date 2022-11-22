@@ -1,22 +1,23 @@
 <template>
-  <div class="row row-cols-1 row-cols-md-4 g-4" style="margin-left:150px">
-    <div>
-      <transition-group
-      ref="main" class="main">
-         <MovieViewCard
-         ref="box"
-         class="box"
-            v-for="movie in movies"
-            :key="movie.id"
-            :movie="movie"
-          />
+  <div>
+    <div class="d-inline-flex" >
+        <MovieNowPlaying class="justify-content-center" />
+    </div>
+    <br><hr>
+    <div class="d-inline-flex justify-content-center">
+      
+    <transition-group 
+      ref="main" class="main row row-cols-1 row-cols-md-4" style="margin:150px">
+        <MovieViewCard
+        ref="box" class="box" 
+          v-for="movie in movies"
+          :key="movie.id"
+          :movie="movie"
+        />
       </transition-group>
+      </div>
     </div>
 
-   
-    <br><hr>
-    <MovieNowPlaying/>
-  </div>
 </template>
 
 <script>

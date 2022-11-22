@@ -1,10 +1,14 @@
 <template>
-  <div>
+  <div >
+      <transition-group ref="main" class="main row row-cols-1 row-cols-md-4"  style="margin:150px"  >
     <MovieViewCard
+    ref="box" class="box"
       v-for="movie in movies"
       :key="movie.id"
       :movie="movie"
     />
+    
+  </transition-group>
   </div>
 </template>
 
