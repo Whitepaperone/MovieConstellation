@@ -16,6 +16,7 @@ export default new Vuex.Store({
     username: null,
     picked: [],
     playlists: [],
+    selected_movies:[],
   },
   getters: {
 
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     GET_PLAYLIST(state, playlists) {
       state.playlists = playlists
     },
+    UPDATE_SELECTED_MOVIES(state, movieLst){
+      state.selected_movies = movieLst
+    }
   },
   actions: {
     getMovie(context) {
@@ -121,6 +125,9 @@ export default new Vuex.Store({
       .catch((err) => {
         console.log(err.response.data)
       })
+    },
+    updateSeletedMovies(context, movieList){
+      context.commit('UPDATE_SELECTED_MOVIES',movieList)
     }
   },
   modules: {

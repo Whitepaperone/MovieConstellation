@@ -8,6 +8,7 @@
               id="title"
               v-model.trim="title"
           ><br>
+          <SearchMovieView/>
           <label for="content">내용 :</label>
           <textarea
               id="content"
@@ -22,6 +23,7 @@
   
   <script>
   import axios from 'axios';
+  import SearchMovieView from '../movie/SearchMovieView.vue';
   const API_URL = 'http://127.0.0.1:8000'
   
   export default {
@@ -30,15 +32,18 @@
           return {
               title: null,
               content: null,
-              movies: [1,2,3],
+              movies: [],
           }
+      },
+      components:{
+        SearchMovieView
       },
       methods: {
           createPlaylist() {
               const title = this.title
               const content = this.content
-              const movies = this.movies
-  
+              const movies = this.$store.state.selected_movies
+                console.log(movies)
               if (title && content) {
                   axios({
                       method: 'post',
@@ -50,6 +55,8 @@
                   })
                   .then((res) => {
                       console.log(res)
+                      this.$store.dispatch('updateSeletedMovies',[])
+                      console.log(this.$store.state.selected_movies)
                       this.$router.push({name: 'PlayListView'})
                   })
                   .catch((err) => {

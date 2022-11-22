@@ -8,6 +8,7 @@
               id="title"
               v-model="context.playlist.title"
           ><br>
+          <SearchMovieView/>
           <label for="content">내용 :</label>
           <textarea
               id="content"
@@ -22,7 +23,7 @@
 
 <script>
 import axios from 'axios';
-
+import SearchMovieView from '../movie/SearchMovieView.vue';
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
@@ -32,6 +33,9 @@ export default {
             context: null,
         }
     },
+    components:{
+        SearchMovieView
+      },
     methods: {
         getPlaylistInfo() {
             axios({
@@ -50,7 +54,7 @@ export default {
         updatePlaylist() {
             const title = this.context.playlist.title
             const content = this.context.playlist.content
-            const movies = this.context.playlist.movies
+            const movies = this.$store.state.selected_movies
             if (title && content) {
                 axios({
                     method: 'put',
