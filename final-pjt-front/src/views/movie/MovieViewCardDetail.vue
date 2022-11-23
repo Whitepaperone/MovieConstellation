@@ -7,7 +7,7 @@
     <div class="movie-title">{{movie.movie.title}}<span class="movie-year">{{movie.movie.release_date}}</span></div>
     <div class="movie-details"><span class="movie-genre"  v-for="genre in movie.genre" :key="genre.id">{{genre}}</span></div>
     <div class="movie-castcrew movie-r"><span class="star">★</span><span class="score">{{movie.movie.vote_average}}</span><span class="score-out-of">/ 10 (TMDB)</span></div></div>
-    <div class="movie-synopsis">{{movie.movie.overview}}{{movie}}</div>
+    <div class="movie-synopsis">{{movie.movie.overview}}</div>
     
     <button class="movie-trailer-btn play-trailer" @click="likeMovie" type="button">Like it</button>
   </div>
