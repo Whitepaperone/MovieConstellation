@@ -80,6 +80,7 @@ const routes = [
     component: Profile,
   },
 
+
   // COMMUNITY
   {
     path: '/community/',

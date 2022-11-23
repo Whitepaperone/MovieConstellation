@@ -86,6 +86,8 @@ def follow(request, user_pk):
         following_list.append(i)
     following=ProfileSerializer(following_list,many=True)
     context = {
+        'id': you.id,
+        'username': you.username,
         'followings':following.data,
         'followers':follower.data,
         'is_followed': is_followed,

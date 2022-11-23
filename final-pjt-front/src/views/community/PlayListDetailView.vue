@@ -1,13 +1,13 @@
 <template>
   <div>
-    {{context.playlist}}
-    <h3>{{context.playlist?.title}}</h3>
-    <p>{{context.playlist?.content}}</p>
+    {{context?.playlist}}
+    <h3>{{context?.playlist?.title}}</h3>
+    <p>{{context?.playlist?.content}}</p>
     <button @click="deletePlaylist">[delete]</button>
     <router-link 
       :to="{
         name : 'UpdatePlayListView',
-        params: {id:context.playlist.id},
+        params: {id:context?.playlist.id},
         }"
     >
       updatePlaylist
