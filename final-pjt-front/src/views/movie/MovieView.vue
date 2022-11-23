@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <div class="d-inline-flex" >
-        <MovieNowPlaying class="justify-content-center" />
+  <div class="container row mx-auto">
+    최신영화
+    <div class="col">
+        <MovieNowPlaying  />
     </div>
-    <br><hr>
-    <div class="d-inline-flex justify-content-center">
-      
+    랭킹영화
     <transition-group 
-      ref="main" class="main row row-cols-1 row-cols-md-4" style="margin:150px">
+      ref="main" class="main col">
+      
         <MovieViewCard
         ref="box" class="box" 
           v-for="movie in movies"
@@ -16,7 +16,6 @@
         />
       </transition-group>
       </div>
-    </div>
 
 </template>
 
