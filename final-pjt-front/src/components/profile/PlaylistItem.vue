@@ -1,5 +1,5 @@
 <template>
-  <p>{{movie.title}}</p>
+  <p> {{movie.title}} / </p>
 </template>
 
 <script>

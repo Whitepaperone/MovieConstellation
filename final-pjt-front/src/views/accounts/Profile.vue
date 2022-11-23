@@ -20,18 +20,28 @@
         <div class="col-8">
           <!-- 플레이리스트 -->
           <div>
+            <h5>[내 저장목록]</h5>
             <Playlist
               v-for="PL in userPL"
               :key="PL?.id"
               :PL="PL"
             />
-            <button @click="getUserPlaylist">플레이리스트 보기</button>
+            
           </div>
           <!-- 좋아요리스트 -->
-          <div>
-            
-            좋아요 리스트
-          </div>
+            <div>
+              <h5>[내가 좋아하는 영화]</h5>
+              <div class="d-flex justify-content-start">
+                <p>영화 목록 : </p>
+                <Likelist
+                  v-for="LL in userLL"
+                  :key="LL?.id"
+                  :LL="LL"
+                />
+              </div>
+            </div>
+            <button @click="getLikeMovie">버튼</button>
+          
           <!-- 유저랑 다른영화 -->
           <!-- <div v-if="this.$store.state.user.id!==user.id" class="row">
             유저랑 다른 리스트
@@ -68,9 +78,10 @@ components: {
 data(){
   return{
     username: null,
-    user:null,
+    user: null,
     followObj: null,
-    userplaylist : null,
+    userplaylist: null,
+    userlikelist: null,
   }
 },
 computed:{
@@ -79,6 +90,9 @@ computed:{
     },
     userPL() {
       return this.userplaylist
+    },
+    userLL() {
+      return this.userlikelist
     }
 },
 props: {
@@ -90,14 +104,14 @@ methods: {
   },
   getProfile(){
     const username=this.$route.params.username
-    console.log(username)
+    // console.log(username)
       axios({
         method: 'get',
         url : `http://127.0.0.1:8000/accounts/profile/${username}/`,
 
       })
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         this.user=response.data
       })
       .then(() => {
@@ -130,7 +144,7 @@ methods: {
   },
   getFollow(){
       // console.log(this.user.id)
-      const user_pk=this.user.id
+      const user_pk=this.user?.id
       
       axios({
         method: 'get',
@@ -146,6 +160,7 @@ methods: {
       })
       .then(() => {
         this.getUserPlaylist()
+        this.getLikeMovie()
       })
       .catch((error) => {
         console.log(error)
@@ -153,7 +168,7 @@ methods: {
   },
   getUserPlaylist() {
     let user_pk = this.followObj?.id
-    console.log(user_pk)
+    // console.log(user_pk)
     axios({
       method: 'get',
       url : `http://127.0.0.1:8000/community/profileplaylist/${user_pk}/`
@@ -165,14 +180,27 @@ methods: {
     .catch((err) => {
       console.log(err)
     })
+  },
+  getLikeMovie() {
+    let user_pk = this.user?.id
+
+    axios({
+      method: 'get',
+      url: `http://127.0.0.1:8000/movies/${user_pk}/like/`
+    })
+    .then((res) => {
+      // console.log(res.data)
+      this.userlikelist = res.data
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
+    
 },
 created() {
   this.getUserName()
   this.getProfile()
-
-  // this.getFollow()
-  // this.getUserPlaylist()
 }
 }
 </script>

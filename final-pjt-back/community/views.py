@@ -1,6 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from django.views.decorators.http import require_GET, require_POST, require_http_methods
-from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 
 # 이쪽이 VUE랑 연동해서 쓸 모듈들
