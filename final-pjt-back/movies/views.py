@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Movie, Genre
-from .serializers import MovieSerializer,LikeMovieSerializer
+from .serializers import MovieSerializer,LikeMovieSerializer,GenreSerializer
 import json
 
 from django.views.generic import FormView
@@ -49,45 +49,26 @@ def search_movie(request):
     return JsonResponse(response)
 
 
-# class SearchFormView(FormView): 
-#     form_class = PostSearchForm 
-#     template_name = 'movies/post_search.html' 
-#     def form_valid(self, form): 
-#         searchWord = form.cleaned_data['search_word']
-#         post_list = Movie.objects.filter(Q(title__icontains=searchWord) | Q(overview__icontains=searchWord) | Q(genres__name__icontains=searchWord)).distinct()
-#         context = {} 
-#         context['form'] = form 
-#         context['search_term'] = searchWord 
-#         context['object_list'] = post_list 
-        
-#         return  render(self.request, self.template_name, context) # No Redirection
-
-
-
-# @require_safe
-# def index(request):
-#     movies = Movie.objects.all()
-#     context = {
-#         "movies": movies,
-#     }
-#     return render(request, "movies/index.html", context)
-    
-# @require_safe
-# def detail(request, movie_pk):
-#     movie = Movie.objects.get(pk=movie_pk) 
-#     context = {
-#         'movie': movie,
-#     }
-#     return render(request, 'movies/detail.html', context)
-
 
 @api_view(['GET', 'POST'])
 def detail(request,movie_pk):
     
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method=='GET':
-        serializer = MovieSerializer(movie)
-        return Response(serializer.data)
+        serializer = MovieSerializer(movie) 
+        genres=serializer.data['genres']
+        genre_list=[]
+        for i in genres:
+            for j in Genre.objects.all():
+                if i==j.id:
+                    genre_list.append(j.name)
+
+        context={
+            'movie':serializer.data,
+            'genre':genre_list
+        }
+        print(context)
+        return Response(context)
 
 
 @api_view(['PUT'])

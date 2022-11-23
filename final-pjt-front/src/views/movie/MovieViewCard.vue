@@ -81,7 +81,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .router-link{
     color:white;
     text-decoration:none;
