@@ -1,29 +1,19 @@
 <template>
 <div>
   <div class="moviecard">
-  <div class="movie-poster play-trailer" @click="likeMovie" :style="{'background-image': 'url('+movie.movie.poster_path+')'}"></div>
+    
+  <div class="movie-poster play-trailer" @click="likeMovie" :style="{'background-image': 'url('+this.movie.movie.poster_path+')'}"></div>
   <div id="movie-content">
     <div class="movie-title">{{movie.movie.title}}<span class="movie-year">{{movie.movie.release_date}}</span></div>
-    
     <div class="movie-details"><span class="movie-genre"  v-for="genre in movie.genre" :key="genre.id">{{genre}}</span></div>
     <div class="movie-castcrew movie-r"><span class="star">★</span><span class="score">{{movie.movie.vote_average}}</span><span class="score-out-of">/ 10 (TMDB)</span></div></div>
-    <div class="movie-synopsis">{{movie.movie.overview}}</div>
+    <div class="movie-synopsis">{{movie.movie.overview}}{{movie}}</div>
+    
     <button class="movie-trailer-btn play-trailer" @click="likeMovie" type="button">Like it</button>
   </div>
 </div>
 
 
-
-
-
-<!-- <div class="card" style="width: 20rem;">
-      <img :src="poster_path" class="card-img-top" alt="" style="width:17rem; height:25rem; margin-left:22px;">
-      <div class="card-body">
-        <h5 class="card-title"><b>{{ title }}</b></h5>
-        <p class="card-text">{{ overview }}</p>
-        <router-link :to="{ name : 'detailmovie' }" :movie="movie">[Detail]</router-link>
-      </div>
-    </div> -->
 </template>
 
 <script>
@@ -43,13 +33,12 @@ computed:{
   methods:{
     getMovie(){
       this.movie=this.$route.params.movieId
-      console.log(this.movie)
+      console.log('getMovie',this.movie)
        axios({
           method: 'get',
           url : `http://127.0.0.1:8000/movies/${this.movie}/`,
         })
         .then((response) => {
-          console.log(response.data)
           this.movie=response.data
         })
         .catch((error) => {
@@ -57,53 +46,51 @@ computed:{
         })
     },
     likeMovie(){
-      const isConsistent=this.movie.like_users.some((user)=>{return user===this.$store.state.user.id})
+      console.log('likeMovie',this.movie)
+      const isConsistent=this.movie.movie.like_users?.some((user)=>{return user===this.$store.state.user.id})
       if (isConsistent){
-        const newUsers=this.movie.like_users.filter((user)=>{return user!==this.$store.state.user.id})
+        const newUsers=this.movie.movie.like_users.filter((user)=>{return user!==this.$store.state.user.id})
 
         axios({
                 method: 'put',
-                url: `http://127.0.0.1:8000/movies/${this.movie.id}/update/`,
+                url: `http://127.0.0.1:8000/movies/${this.movie.movie.id}/update/`,
                 data:{
-                  id:this.movie.id,
-                  title:this.movie.title,
-                  release_date:this.movie.release_date,
-                  popularity:this.movie.popularity,
-                  vote_count:this.movie.vote_count,
-                  vote_average:this.movie.vote_average,
-                  poster_path:this.movie.poster_path,
-                  genres:this.movie.genres,
+                  id:this.movie.movie.id,
+                  title:this.movie.movie.title,
+                  release_date:this.movie.movie.release_date,
+                  popularity:this.movie.movie.popularity,
+                  vote_count:this.movie.movie.vote_count,
+                  vote_average:this.movie.movie.vote_average,
+                  poster_path:this.movie.movie.poster_path,
+                  genres:this.movie.movie.genres,
                   like_users: newUsers
                   }
               })
               .then((res)=>{
                 this.getMovie()
                 console.log('unlike',newUsers)
-                console.log(res)
               })
               .catch((err)=>console.log(err))
       }
       else{
-        this.movie.like_users.push(this.$store.state.user.id)
-        console.log('-------------',this.movie.like_users)
+        this.movie.movie.like_users?.push(this.$store.state.user.id)
         axios({
                 method: 'put',
-                url: `http://127.0.0.1:8000/movies/${this.movie.id}/update/`,
+                url: `http://127.0.0.1:8000/movies/${this.movie.movie.id}/update/`,
                 data:{
-                  id:this.movie.id,
-                  title:this.movie.title,
-                  release_date:this.movie.release_date,
-                  popularity:this.movie.popularity,
-                  vote_count:this.movie.vote_count,
-                  vote_average:this.movie.vote_average,
-                  poster_path:this.movie.poster_path,
-                  genres:this.movie.genres,
-                  like_users: this.movie.like_users
+                  id:this.movie.movie.id,
+                  title:this.movie.movie.title,
+                  release_date:this.movie.movie.release_date,
+                  popularity:this.movie.movie.popularity,
+                  vote_count:this.movie.movie.vote_count,
+                  vote_average:this.movie.movie.vote_average,
+                  poster_path:this.movie.movie.poster_path,
+                  genres:this.movie.movie.genres,
+                  like_users: this.movie.movie.like_users
                   }
               })
               .then((res)=>{
                 console.log('like==========',this.movie.like_users)
-                console.log(res)
                 this.getMovie()
               })
               .catch((err)=>console.log(err))
@@ -336,4 +323,6 @@ computed:{
 .moviecard.movie-view-trailer .movie-trailer #youvideo {
   height: 100%;
 }
+
+
 </style>

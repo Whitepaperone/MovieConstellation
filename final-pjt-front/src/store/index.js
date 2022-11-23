@@ -55,7 +55,6 @@ export default new Vuex.Store({
         url : `${API_URL}/movies/`,
       })
       .then((response) => {
-        console.log(response.data)
         context.commit("GET_MOVIE", response.data)
       })
       .catch((error) => {
@@ -70,7 +69,6 @@ export default new Vuex.Store({
         url : `${API_URL}/movies/${user_id}/like/`,
       })
       .then((response) => {
-        console.log(response.data)
         context.commit("GET_LIKE_MOVIE", response.data)
       })
       .catch((error) => {

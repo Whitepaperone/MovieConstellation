@@ -66,12 +66,10 @@ export default {
     },
     imgSrc(){
       if (this.movie.backdrop_path){
-        console.log(this.movie.backdrop_path)
         this.poster_path="https://image.tmdb.org/t/p/w500"+this.movie.backdrop_path
       }
       else{
-        console.log(this.movie.poster_path)
-        this.poster_path="https://image.tmdb.org/t/p/w500"+this.movie.poster_path
+        this.poster_path=this.movie.poster_path
       }
     },
   },
@@ -81,7 +79,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .router-link{
     color:white;
     text-decoration:none;

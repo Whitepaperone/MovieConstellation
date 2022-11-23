@@ -45,7 +45,7 @@ export default {
     // wait for $refs to be available
     await this.$nextTick()
 
-    this.$refs.box.forEach(box => {
+    this.$refs.box?.forEach(box => {
       box.style.left = Math.random() * (this.$refs.main.clientWidth - box.clientWidth) + 'px'
       box.style.top = Math.random() * (this.$refs.main.clientHeight - box.clientHeight) + 'px'
     })

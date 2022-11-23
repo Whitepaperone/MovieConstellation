@@ -39,7 +39,6 @@ export default {
       })
         .then((res) => {
           this.movies = res.data.results
-          console.log('---------------',this.movies)
         })
         .catch((error) => {console.log(error)})
     }
