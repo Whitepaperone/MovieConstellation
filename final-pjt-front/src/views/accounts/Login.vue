@@ -16,11 +16,11 @@
                       <div class="section text-center">
                         <h4 class="mb-4 pb-3">Log In</h4>
                         <div class="form-group">
-                          <input type="text" name="logID" class="form-style" placeholder="Your ID" id="logID" autocomplete="off" v-model="username" >
+                          <input type="text" name="logID" class="form-style" placeholder="Your ID" id="logID" autocomplete="off" v-model.trim="username" >
                           <i class="input-icon bi bi-person"></i>
                         </div>
                         <div class="form-group mt-2">
-                          <input type="password" name="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off" v-model="password" >
+                          <input type="password" name="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off" v-model.trim="password" >
                           <i class="input-icon bi bi-lock"></i>
                         </div>
                         <a @click="logIn" class="btn mt-4">Log In</a>
@@ -33,15 +33,15 @@
                       <div class="section text-center">
                         <h4 class="mb-4 pb-3">Sign Up</h4>
                         <div class="form-group">
-                          <input type="text" name="signupID" class="form-style" placeholder="Your ID" id="signupID" autocomplete="off" v-model="username">
+                          <input type="text" name="signupID" class="form-style" placeholder="Your ID" id="signupID" autocomplete="off" v-model.trim="username">
                           <i class="input-icon bi bi-person-plus"></i>
                         </div>
                         <div class="form-group mt-2">
-                          <input type="password" name="signupPass" class="form-style" placeholder="Your Password" id="signupPass" autocomplete="off" v-model="password">
+                          <input type="password" name="signupPass" class="form-style" placeholder="Your Password" id="signupPass" autocomplete="off" v-model.trim="password">
                           <i class="input-icon bi bi-lock"></i>
                         </div>
                         <div class="form-group mt-2">
-                          <input type="password" name="logpass_check" class="form-style" placeholder="Your Password Again" id="logpass_check" autocomplete="off" v-model="password_check">
+                          <input type="password" name="logpass_check" class="form-style" placeholder="Your Password Again" id="logpass_check" autocomplete="off" v-model.trim="password_check">
                           <i class="input-icon bi bi-lock-fill"></i>
                         </div>
                         <a @click="signUp" class="btn mt-4">Sign Up</a>
@@ -85,48 +85,77 @@ export default {
       let username = this.username
       let password = this.password
       console.log(username)
-      axios({
-        method: 'post',
-        url: `${API_URL}/api/token/`,
-        data: {username, password,},
-      })
-      .then((res) => {
-        localStorage.setItem('jwt', res.data.access)
-        localStorage.setItem('username', username)
-        this.$store.dispatch('getUser')
-        
-        this.$emit('login', this.username)
-        this.username = null
-        this.password = null
-        this.$router.push({name: 'movieview'})
-        location.reload()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      if (!username) {
+        alert('ID를 입력해주세요!')
+      }
+      else if (!password) {
+        alert('Password를 입력해주세요!')
+      }
+      else {
+        axios({
+          method: 'post',
+          url: `${API_URL}/api/token/`,
+          data: {username, password,},
+        })
+        .then((res) => {
+          localStorage.setItem('jwt', res.data.access)
+          localStorage.setItem('username', username)
+          this.$store.dispatch('getUser')
+          
+          this.$emit('login', this.username)
+          this.username = null
+          this.password = null
+          this.$router.push({name: 'movieview'})
+          location.reload()
+        })
+        .catch((err) => {
+          console.log(err)
+          if (err.response?.data?.detail == "No active account found with the given credentials") {
+            alert('입력하신 정보를 확인하세요.')
+          }
+        })
+      }
     },
     signUp: function () {
       const username = this.username
       const password = this.password
       const password_check = this.password_check
-      console.log(password)
-      console.log(password_check)
-      axios({
-        method: 'post',
-        url: `${API_URL}/accounts/signup/`,
-        data: {username, password, password_check},
-      })
-      .then(() => {
-        this.username = null,
-        this.password = null,
-        this.password_check = null,
-        this.is_checked = false
-        // this.$router.push({name: 'Login'})
-        location.reload()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      if (!username) {
+        alert('ID를 입력해주세요!')
+      }
+      else if (!password) {
+        alert('Password를 입력해주세요!')
+      }
+      else if (!password_check) {
+        alert('Password를 다시 한번 입력해주세요!')
+      }
+      else{
+        axios({
+          method: 'post',
+          url: `${API_URL}/accounts/signup/`,
+          data: {username, password, password_check},
+        })
+        .then(() => {
+          this.username = null,
+          this.password = null,
+          this.password_check = null,
+          this.is_checked = false
+          // this.$router.push({name: 'Login'})
+          location.reload()
+        })
+        .catch((err) => {
+          console.log(err)
+          if (err.response.data.passwordUnmatch){
+            alert(err.response.data.passwordUnmatch)
+          }
+          else if (err.response?.data?.username[0] == "Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters.") {
+            alert('영자와 숫자, @/./+/-/_ 만 사용할 수 있습니다.')
+          }
+          else if (err.response?.data?.username[0] =='A user with that username already exists.'){
+            alert('이미 가입된 사용자입니다.')
+          }
+        })
+      }
     }
   }
 }

@@ -11,10 +11,14 @@ from rest_framework.permissions import (
     IsAuthenticated,
     AllowAny,
 )
+from .models import User
+
+
 @api_view(['POST'])
 def signup(request):
     if request.method == 'POST':
         data = request.data
+        
         if data['password'] == data['password_check']:
             serializer = SignUpSerializer(data=data)
             password = serializer.initial_data.get('password')
@@ -24,7 +28,10 @@ def signup(request):
                 user.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            context = {
+                'passwordUnmatch' : '비밀번호가 일치하지 않습니다.'
+            }
+            return Response(context, status=status.HTTP_400_BAD_REQUEST)
 
 
 

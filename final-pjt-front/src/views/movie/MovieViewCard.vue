@@ -20,7 +20,9 @@
               <h4 class="movie-card__info">{{this.movie.vote_average}}</h4>
               </div>
               <p class="movie-card__desc">{{overview}}</p>
-              <button v-if="!(this.movie.backdrop_path)" class="btn btn-outline movie-card__button" type="button"><router-link class="router-link" :to="{ name : 'detailmovie', params: { movieId: movies.id} }">Detail</router-link></button>
+              <router-link class="router-link" :to="{ name : 'detailmovie', params: { movieId: movies.id} }">
+                <button v-if="!(this.movie.backdrop_path)" class="btn btn-outline movie-card__button" type="button">Detail</button>
+              </router-link>
           </div>
         </div>
   
