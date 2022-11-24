@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class="section">
-      <div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="section d-flex justify-content-center">
+      <div class="container d-flex justify-content-center">
         <div class="row full-height justify-content-center">
-          <div class="col-12 text-center align-self-center py-5">
-            <div class="section pb-5 pt-5 pt-sm-2 text-center" style="background-color:#00001E; border-radius: 5%;">
+          <div class="col-12 text-center justify-content-center py-5">
+            <div class="section pb-5 pt-5 pt-sm-2 text-center" style="background-color:rgba(159, 157, 157, 0.5); border-radius: 15px; width:500px;">
               <h6 class="mb-0 pb-3 mt-3"><span>Log In </span><span>Sign Up</span></h6>
               <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" v-model="is_checked" @click="is_check" />
               <label for="reg-log"></label>
@@ -192,7 +192,7 @@ h6 span {
   padding: 0 20px;
   text-transform: uppercase;
   font-weight: 700;
-  color: #c4c3ca;
+  color: #102770;
 }
 .section {
   position: relative;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="moviecard">
     <MovieViewCard
       :movie="moviee"
     />
@@ -26,6 +26,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.moviecard{
+  margin-bottom: 20px;
+  background-color: rgba(226, 226, 226, 0.377);
+  border-radius: 10px;
+}
 </style>
