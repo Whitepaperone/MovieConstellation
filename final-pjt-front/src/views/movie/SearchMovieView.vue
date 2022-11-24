@@ -1,16 +1,17 @@
 <template>
-  <div>SearchView
-    <input
-          type="text"
-          placeholder="검색할 영화"
-          @input="searchMovie" />
-    <button @click="searchMovie">+</button>
-    <MovieViewCard
-      v-for="movie in search_movies"
-      :key="movie.title"
-      :movie="movie"
-    />
+  <div>
+    <div class="form-group has-search">
+      <span class="fa fa-search form-control-feedback"></span>
+      <input @input="searchMovie" type="text" class="form-control" placeholder="Search">
     </div>
+        <MovieViewCard
+            v-for="movie in search_movies"
+            :key="movie.title"
+            :movie="movie"
+          />
+  </div>
+    
+  
 </template>
 
 <script>
@@ -52,6 +53,27 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss" scoped>
+.main {
+    width: 50%;
+    margin: 50px auto;
+}
 
+/* Bootstrap 4 text input with search icon */
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
 </style>

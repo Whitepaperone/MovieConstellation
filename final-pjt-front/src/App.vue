@@ -71,7 +71,7 @@
               >
                 <b>Logout</b>
               </router-link>
-              <router-link
+              <!-- <router-link
                 v-if="isLogIn"
                 :to="{ name : 'PlayListView' }"
                 tag="b-dropdown-item"
@@ -86,7 +86,7 @@
                 class="router-link"
               >
                 <b>Liked</b>
-              </router-link>
+              </router-link> -->
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>

@@ -7,7 +7,6 @@ import WatchList from '../views/movie/WatchList.vue'
 import SearchMovieView from '@/views/movie/SearchMovieView'
 import MovieViewCardDetail from '@/views/movie/MovieViewCardDetail'
 
-import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import Logout from '@/views/accounts/Logout'
 import Profile from '@/views/accounts/Profile'
@@ -53,11 +52,6 @@ const routes = [
   },
 
   // ACCOUNTS
-  {
-    path: '/accounts/signup',
-    name: 'Signup',
-    component: Signup,
-  },
   {
     path: '/accounts/login',
     name: 'Login',

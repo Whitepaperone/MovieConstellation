@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .isselected{
   text-decoration-line: line-through;
   color: gray;
