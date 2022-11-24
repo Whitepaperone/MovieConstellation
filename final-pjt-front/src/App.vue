@@ -85,7 +85,7 @@
                 tag="b-dropdown-item"
                 class="router-link"
               >
-                Liked
+                <b>Liked</b>
               </router-link>
             </b-nav-item-dropdown>
           </b-navbar-nav>
