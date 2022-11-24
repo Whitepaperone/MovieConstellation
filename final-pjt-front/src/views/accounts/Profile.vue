@@ -1,10 +1,10 @@
 <template>
     <div>
-      <div class="row">
+      <div class="d-flex p-2" style="width:auto">
         <!-- 유저 프로필 -->
-        <div class="col-4">
+        <div class="back col-4 d-flex justify-content-center align-items-center mx-3 p-2">
           <section class="profile">
-            <div class="profile-header"><img src="../../assets/space_bg.jpg" alt="BGIMG"/></div>
+            <div class="profile-header"><img style="width:100%; height:100%;" src="../../assets/space_bg.jpg" alt="BGIMG"/></div>
             <div class="profile-content"><img src="../../assets/Astronaut_helmet1.jpg" alt="PFIMG"/>
               <h1>{{followObj?.username}}</h1>
               <button v-if="this.$store.state.user?.id!==user?.id && !followObj?.is_followed" @click="following" type="button">Follow</button>
@@ -17,10 +17,24 @@
           </section>
         </div>
         <!-- list들 -->
-        <div class="col-8">
+        <div class="back row justify-content-center col-8 p-3 ">
+          <div class="p-0 m-0">
+            <div class="lititle d-flex justify-content-start">
+              <span class="me-3">
+                <h5>Playlist</h5>
+              </span>
+              <span>
+                <router-link
+                  v-if="this.$store.state.user?.id === user?.id"
+                  :to="{ name : 'PlayListView' }"
+                >
+                  <i class="setting bi bi-gear"></i>
+                </router-link>
+              </span>
+            </div>
+          </div>
           <!-- 플레이리스트 -->
-          <div>
-            <h5>[내 저장목록]</h5>
+          <div class="lists px-0 row justify-content-center" style="overflow:scroll; height: 120px;">
             <Playlist
               v-for="PL in userPL"
               :key="PL?.id"
@@ -29,18 +43,30 @@
             
           </div>
           <!-- 좋아요리스트 -->
-            <div>
-              <h5>[내가 좋아하는 영화]</h5>
-              <div class="d-flex justify-content-start">
-                <p>영화 목록 : </p>
-                <Likelist
-                  v-for="LL in userLL"
-                  :key="LL?.id"
-                  :LL="LL"
-                />
+          <div class="lists m-2 p-2 row justify-content-center">
+            <div class="p-0 m-0">
+              <div class="lititle d-flex justify-content-start">
+                <span class="me-3">
+                  <h5>좋아요</h5>
+                </span>
+                <span>
+                  <router-link
+                    :to="{name : 'watchlist'}"
+                  >
+                  <i class="setting bi bi-suit-heart-fill"></i>
+                  </router-link>
+                </span>
               </div>
             </div>
-            <button @click="getLikeMovie">버튼</button>
+            
+            <div class="d-flex justify-content-start p-3">
+              <Likelist
+                v-for="LL in userLL"
+                :key="LL?.id"
+                :LL="LL"
+              />
+            </div>
+          </div>
           
           <!-- 유저랑 다른영화 -->
           <!-- <div v-if="this.$store.state.user.id!==user.id" class="row">
@@ -206,6 +232,12 @@ created() {
 </script>
 
 <style scoped>
+/* div {
+  border:#c54b30 solid 1px;
+}
+span {
+  border:#f6ff00 solid 1px;
+} */
 section.profile {
 	 position: relative;
 	 width: 325px;
@@ -332,6 +364,32 @@ section.profile {
 	 font-family: helvetica neue, sans-serif;
 	 background: url('http://dir.agosto.nl/dump/profile.png');
 }
+.setting {
+  color: #ffeba7;
+}
 
+.back {
+  background-color: rgba(159, 157, 157, 0.5);
+  border-radius: 10px;
+}
+
+.lists{
+  background-color: rgba(226, 226, 226, 0.095);
+  border-radius: 10px;
+}
+.lititle{
+  width: fit-content;
+  background-color: rgba(159, 157, 157, 0.5);
+  border-radius: 10px;
+  padding-top: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.scrollbar{
+  overflow-x:hidden;
+}
+::-webkit-scrollbar{
+  display: none;
+}
  
 </style>

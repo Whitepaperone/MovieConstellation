@@ -16,7 +16,6 @@
         <transition-group 
           ref="main" class="main col"
         >
-          
             <MovieViewCard
               ref="box" class="box" 
               v-for="movie in movies"

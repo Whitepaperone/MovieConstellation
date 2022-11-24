@@ -1,9 +1,11 @@
 <template>
-  <div class="container row" id="Playlist">
-    <h5>{{PL.title}}</h5>
-    <p>{{PL.content}}</p>
+  <div class="back container row justify-content-center my-1 p-3" id="Playlist">
+    <div class="p-0 m-0">
+      <div>
+        <h5 class="playlisttitle px-2 py-1" style="width:fit-content;">{{PL.title}}</h5>
+      </div>
+    </div>
     <div class="d-flex justify-content-start">
-      <p>영화목록 : </p>
       <PlaylistItem
         v-for="movie in movies"
         :key="movie.id"
@@ -52,6 +54,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.back {
+  background-color: rgba(65, 65, 65, 0.832);
+  border-radius: 10px;
+}
+.playlisttitle{
+  background-color: rgba(92, 92, 92, 0.758);
+  border-radius: 10px;
+}
 </style>
