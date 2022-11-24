@@ -1,8 +1,19 @@
 <template>
   <div>
-    {{context?.playlist}}
-    <h3>{{context?.playlist?.title}}</h3>
-    <p>{{context?.playlist?.content}}</p>
+    <div>
+      <div>
+        <h1>{{context?.playlist?.title}}</h1>
+        <p>{{context?.playlist?.content}}</p>
+      </div>
+      <div>
+        <PlayListMovieVue
+          v-for="movie in movies"
+          :key="movie.id"
+          :movie="movie"
+        />
+      </div>
+    </div>
+
     <button @click="deletePlaylist">[delete]</button>
     <router-link 
       :to="{
@@ -17,14 +28,19 @@
 
 <script>
 import axios from 'axios';
+import PlayListMovieVue from '@/components/playlist/PlayListMovie.vue';
 
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'PlayListDetailView',
+  components: {
+    PlayListMovieVue
+  },
   data() {
     return {
         context: null,
+        movies: null,
     }
   },
   methods: {
@@ -37,8 +53,9 @@ export default {
             }
         })
         .then((res) => {
-          console.log(res)
+          // console.log(res.data)
           this.context=res.data
+          this.movies=res.data.movies
         })
         .catch(err => console.log(err))
     },
@@ -62,6 +79,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+div {
+border:#c54b30 solid 1px;
+}
+span {
+border:#f6ff00 solid 1px;
+}
 </style>

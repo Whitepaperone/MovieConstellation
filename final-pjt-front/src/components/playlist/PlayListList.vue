@@ -1,29 +1,28 @@
 <template>
-    <div>
-      <PlayListItemVue
-          v-for="playlist in playlists"
-          :key="playlist.id"
-          :playlist="playlist"
-      />
+    <div class="">
+        <PlayListItemVue
+            v-for="playlist in playlists"
+            :key="playlist.id"
+            :playlist="playlist"
+        />
     </div>
-  </template>
+</template>
+
+<script>
+import PlayListItemVue from './PlayListItem.vue';
+
+export default {
+    name: 'PlayListList',
+    components: {
+        PlayListItemVue,
+    },
+    computed: {
+        playlists() {
+            return this.$store.state.playlists
+        }
+    }
+}
+</script>
   
-  <script>
-  import PlayListItemVue from './PlayListItem.vue';
-  
-  export default {
-      name: 'PlayListList',
-      components: {
-          PlayListItemVue,
-      },
-      computed: {
-          playlists() {
-              return this.$store.state.playlists
-          }
-      }
-  }
-  </script>
-  
-  <style>
-  
-  </style>
+<style scoped>
+</style>
