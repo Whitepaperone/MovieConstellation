@@ -81,12 +81,12 @@
       </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <FollowersVue
             :usercomp="user"
         />
         <h1>hello?</h1>
-    </div>
+    </div> -->
     
     
   </div>
