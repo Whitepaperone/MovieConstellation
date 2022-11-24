@@ -94,12 +94,6 @@ export default {
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
 
-div {
-border:#c54b30 solid 1px;
-}
-span {
-border:#f6ff00 solid 1px;
-}
 h1{
   font-family: 'Black Han Sans', sans-serif;
   color: #ffeba7;
