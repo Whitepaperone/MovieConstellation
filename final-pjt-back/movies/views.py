@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from accounts.models import User
 from .models import Movie, Genre
 from .serializers import MovieSerializer,LikeMovieSerializer,GenreSerializer
 import json
@@ -57,15 +58,21 @@ def detail(request,movie_pk):
     if request.method=='GET':
         serializer = MovieSerializer(movie) 
         genres=serializer.data['genres']
+        likeUsers=serializer.data['like_users']
         genre_list=[]
+        like_list=[]
         for i in genres:
             for j in Genre.objects.all():
                 if i==j.id:
                     genre_list.append(j.name)
-
+        for i in likeUsers:
+            for j in User.objects.all():
+                if i==j.id:
+                    like_list.append(j.username)
         context={
             'movie':serializer.data,
-            'genre':genre_list
+            'genre':genre_list,
+            'like_user':like_list
         }
         print(context)
         return Response(context)
