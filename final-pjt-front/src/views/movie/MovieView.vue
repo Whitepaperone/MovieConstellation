@@ -14,10 +14,11 @@
       </div>
       <div class="moviecardzone col" style="overflow:scroll; width:900px; height: 480px;">
         <transition-group 
-          ref="main" class="main col" >
+          ref="main" class="main col"
+        >
           
             <MovieViewCard
-            ref="box" class="box" 
+              ref="box" class="box" 
               v-for="movie in movies"
               :key="movie.id"
               :movie="movie"
