@@ -6,7 +6,6 @@ import RandomView from '../views/movie/RandomView.vue'
 import WatchList from '../views/movie/WatchList.vue'
 import SearchMovieView from '@/views/movie/SearchMovieView'
 import MovieViewCardDetail from '@/views/movie/MovieViewCardDetail'
-import TestView from '@/views/movie/TestView'
 
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
@@ -49,11 +48,6 @@ const routes = [
     props:{newsletterPopup: false}
   },
   
-  {
-    path:'/combination',
-    name:'combinationMovie',
-    component : TestView
-  },
   {
     path:'/'
   },

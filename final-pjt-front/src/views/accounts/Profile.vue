@@ -1,7 +1,12 @@
 <template>
   <div>
+    <div v-if="this.$store.state.user?.id!==user?.id" class="row">
+        <Combination :comuser="userObj={'a':user.id, 'b':this.$store.state.user.id}"/>
+      </div>
     <div class="d-flex p-2" style="width:auto">
       <!-- 유저 프로필 -->
+      
+      
       <div class="back col-4 d-flex justify-content-center align-items-center mx-3 p-2">
         <section class="profile">
           <div class="profile-header"><img style="width:100%; height:100%;" src="../../assets/space_bg.jpg" alt="BGIMG"/></div>
@@ -232,12 +237,6 @@ this.getProfile()
 </script>
 
 <style scoped>
-div {
-border:#c54b30 solid 1px;
-}
-span {
-border:#f6ff00 solid 1px;
-}
 section.profile {
  position: relative;
  width: 325px;
@@ -354,7 +353,6 @@ html {
  background: #2d353d;
 }
 body {
- display: flex;
  margin: 0;
  padding: 20px;
  min-height: 100%;
