@@ -2,7 +2,7 @@
   <div id="app">
     <b-navbar type="dark" variant="dark" fill="true" class="d-flex justify-content-between">
       <b-navbar-brand href="http://localhost:8080/">
-        <img src="./assets/ssasfy.png" alt="logo" style="width:50px; height:50px;" >
+        <img src="./assets/logo.png" alt="logo" style="width:80px; height:30px;" >
       </b-navbar-brand>
       <div>
         <b-collapse id="nav-collapse" is-nav>
