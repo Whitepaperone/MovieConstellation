@@ -2,15 +2,25 @@
 <div>
   <div class="moviecard">
     
-  <div class="movie-poster play-trailer" @click="likeMovie" :style="{'background-image': 'url('+this.movie.movie.poster_path+')'}"></div>
+  <div class="movie-poster play-trailer" @click="likeMovie" :style="{'background-image': 'url('+this.movie.movie?.poster_path+')'}"></div>
   <div id="movie-content">
-    <div class="movie-title">{{movie.movie.title}}<span class="movie-year">{{movie.movie.release_date}}</span></div>
+    <div class="movie-title">{{movie.movie?.title}}<span class="movie-year">{{movie.movie?.release_date}}</span></div>
     <div class="movie-details"><span class="movie-genre"  v-for="genre in movie.genre" :key="genre.id">{{genre}}</span></div>
-    <div class="movie-castcrew movie-r"><span class="star">★</span><span class="score">{{movie.movie.vote_average}}</span><span class="score-out-of">/ 10 (TMDB)</span></div></div>
-    <div class="movie-synopsis">{{movie.movie.overview}}</div>
+    <div class="movie-castcrew"><span class="star">★</span><span class="score">{{movie.movie?.vote_average}}</span><span class="score-out-of">/ 10 (TMDB)</span></div></div>
+    <div class="movie-castcrew"><span class="title">Like</span><span class="name text-animation" v-for="user in movie?.like_user" :key="user.id"> <router-link class="router-link" :to="{ name : 'Profile', params: { username: user} }">| {{user}} |</router-link> </span></div>
+    <div class="movie-synopsis">{{movie.movie?.overview}}</div>
     
     <button class="movie-trailer-btn play-trailer" @click="likeMovie" type="button">Like it</button>
   </div>
+  <div class="decode-text">
+  	<div class="text-animation" v-for="user in movie?.like_user" :key="user.id">{{user}}
+    <div class="space"></div></div>
+  </div>
+<!-- 
+<a id="refresh" onclick="decodeText();">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+</a> -->
+
 </div>
 
 
@@ -28,7 +38,7 @@ data(){
 computed:{
   getMovieDetail(){
     return this.movie
-  }
+  },
 },
   methods:{
     getMovie(){
@@ -94,21 +104,47 @@ computed:{
                 this.getMovie()
               })
               .catch((err)=>console.log(err))
-      }
-     
-    },
+        }
+      },
+  
     },
   created(){
     this.getMovie()
   },
+  mounted(){;
+  }
 }
+
+/* ------------------------------------------------------------------------ *  
+4 states per letter: Transparent | Line | Block | Visible.
+These states are shuffled for a unique "decode" effect each time.
+* ------------------------------------------------------------------------ */
+
+
+
+// send the node for later .state changes
+
+
+
+// Demo only stuff
+
+
+// beware: refresh button can overlap this timer and cause state mixups
+
+
+
+
 </script>
 
-<style>
+<style scoped>
 @charset "UTF-8";
 * {
   box-sizing: border-box;
 }
+.router-link{
+    color:#333333;
+    text-decoration:none;
+  }
 
 .moviecard {
   font-family: "Helvetica", sans-serif, "Ariel";
@@ -325,4 +361,67 @@ computed:{
 }
 
 
+
+
+
+@import url(https://fonts.googleapis.com/css?family=Share+Tech+Mono);
+.decode-text {
+  width: 100%;
+  font-size: 30px;
+  text-align: center;
+}
+
+.space {
+  display: inline-block;
+  width: 10px;
+}
+
+.text-animation {
+  display: inline-block;
+  position: relative;
+  color: transparent;
+  text-transform: uppercase;
+}
+.text-animation:before {
+  content: "";
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: #0e182d;
+  width: 0;
+  height: 1.2em;
+  -webkit-transform: translate(-50%, -55%);
+  -ms-transform: translate(-50%, -55%);
+  transform: translate(-50%, -55%);
+}
+.text-animation.state-1:before {
+  width: 1px;
+}
+.text-animation.state-2:before {
+  width: 0.9em;
+}
+.text-animation.state-3 {
+  color: black;
+}
+.text-animation.state-3:before {
+  width: 0;
+}
+
+#refresh {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+
+div {
+  font-family: "Share Tech Mono", monospace;
+}
+
+body {
+  height: 100vh;
+  align-items: center;
+  display: flex;
+}
 </style>
