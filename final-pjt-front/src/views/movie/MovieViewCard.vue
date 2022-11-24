@@ -9,7 +9,7 @@
         <router-link :to="{ name : 'detailmovie', params: { movieId: movies.id} }">[Detail]</router-link>
       </div>
     </div> -->
-    <div>
+    <div @click="selectMovie">
       <div id="movie-card-list">
         <div class="movie-card" :style="{'background-image': 'url('+this.poster_path+')'}">
           <div class="movie-card__overlay"></div>
