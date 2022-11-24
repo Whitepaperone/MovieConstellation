@@ -100,7 +100,6 @@ export default {
       const user_id=this.comuser.a
       const another_user_id=this.comuser.b
 
-      console.log(another_user_id,user_id)
        axios({
           method: 'get',
           url : `http://127.0.0.1:8000/movies/${user_id}/combination/${another_user_id}`,

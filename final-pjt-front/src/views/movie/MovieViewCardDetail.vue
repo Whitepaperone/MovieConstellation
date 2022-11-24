@@ -43,7 +43,6 @@ computed:{
   methods:{
     getMovie(){
       this.movie=this.$route.params.movieId
-      console.log('getMovie',this.movie)
        axios({
           method: 'get',
           url : `http://127.0.0.1:8000/movies/${this.movie}/`,
@@ -56,7 +55,6 @@ computed:{
         })
     },
     likeMovie(){
-      console.log('likeMovie',this.movie)
       const isConsistent=this.movie.movie.like_users?.some((user)=>{return user===this.$store.state.user.id})
       if (isConsistent){
         const newUsers=this.movie.movie.like_users.filter((user)=>{return user!==this.$store.state.user.id})
@@ -78,7 +76,6 @@ computed:{
               })
               .then((res)=>{
                 this.getMovie()
-                console.log('unlike',newUsers)
               })
               .catch((err)=>console.log(err))
       }
@@ -100,7 +97,6 @@ computed:{
                   }
               })
               .then((res)=>{
-                console.log('like==========',this.movie.like_users)
                 this.getMovie()
               })
               .catch((err)=>console.log(err))

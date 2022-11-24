@@ -54,11 +54,9 @@ def follow(request, user_pk):
     if request.method=='POST':
         if you != me:
             if you.followers.filter(pk=me.pk).exists():
-                print('unfollow')
                 you.followers.remove(me)
                 is_followed = False
             else:
-                print('follow')
                 you.followers.add(me)
                 is_followed = True            
     else:
@@ -73,7 +71,6 @@ def follow(request, user_pk):
     follower=ProfileSerializer(follower_list,many=True)
     
     following_list=[]
-    print()
     for i in you.followings.all():
         following_list.append(i)
     following=ProfileSerializer(following_list,many=True)

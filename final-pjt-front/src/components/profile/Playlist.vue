@@ -40,7 +40,6 @@ export default {
         url: `http://127.0.0.1:8000/community/${PL_id}/`
       })
       .then((res) => {
-        // console.log(res.data.movies)
         this.movies = res.data.movies
       })
       .catch((err) => {

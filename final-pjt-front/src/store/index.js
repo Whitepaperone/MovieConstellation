@@ -76,13 +76,11 @@ export default new Vuex.Store({
       })
     },
     recommendWithGenre(context,user_id){
-      console.log('recommend with Genre')
       axios({
          method: 'get',
          url : `http://127.0.0.1:8000/movies/${user_id}/recommend/`,
        })
        .then((response) => {
-         console.log(response.data)
          context.commit("GET_RECOMMEND_MOVIE_GENRE",response.data)
        })
        .catch((error) => {
@@ -99,7 +97,6 @@ export default new Vuex.Store({
           url : `${API_URL}/accounts/profile/${username}/`,
         })
         .then((response) => {
-          // console.log(response.data)
           context.commit("GET_USER", response.data)
         })
         .catch((error) => {
@@ -117,7 +114,6 @@ export default new Vuex.Store({
         }
       })
       .then((res) => {
-        // console.log(res)
         context.commit('GET_PLAYLIST', res.data)
       })
       .catch((err) => {

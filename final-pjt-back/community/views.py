@@ -32,7 +32,6 @@ def playlist_list(request):
     
     elif request.method == 'POST':
         data = request.data
-        print(data)
         serializer = CreatePlayListSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             playlist = serializer.save(user=request.user)

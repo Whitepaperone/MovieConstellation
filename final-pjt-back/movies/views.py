@@ -74,7 +74,7 @@ def detail(request,movie_pk):
             'genre':genre_list,
             'like_user':like_list
         }
-        print(context)
+        
         return Response(context)
 
 

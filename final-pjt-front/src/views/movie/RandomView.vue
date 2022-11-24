@@ -69,8 +69,6 @@ export default {
   },
   methods:{
     randomPick(){
-      // console.log(this.movies.length)
-      // this.number = Math.floor(Math.random() * this.movies.length);
       this.poster = 'http://image.tmdb.org/t/p/w185' + this.movies[this.number].poster_path,
       this.title = this.movies[this.number].title
       this.movieId=this.movies[this.number].id
@@ -83,7 +81,6 @@ export default {
   //   movies : 'randomPick',
   // },
   created(){
-    console.log('created random')
     this.$store.dispatch('recommendWithGenre',this.$store.state.user.id)
     this.randomPick()
   }

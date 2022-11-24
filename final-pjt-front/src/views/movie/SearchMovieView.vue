@@ -41,7 +41,6 @@ export default {
           params:{'search':event.target.value},
         })
         .then((response) => {
-          console.log(response.data)
           this.movies=response.data
         })
         .catch((error) => {

@@ -79,12 +79,10 @@ export default {
       this.password = null,
       this.password_check = null,
       this.is_checked = false
-      console.log(this.is_checked)
     },
     logIn: function () {
       let username = this.username
       let password = this.password
-      console.log(username)
       if (!username) {
         alert('ID를 입력해주세요!')
       }
